@@ -7,15 +7,20 @@ import SearchBar from "@/components/SearchBar";
 
 export default function Home() {
   return (
-    <main className="container mx-auto">
-      <h1>THE HOMEEEE</h1>
-      <LogInButton />
-      <RegisterButton />
+    <>
+      <main className="container mx-auto flex items-center justify-center flex-col h-screen w-screen ">
+        <h1 className="text-4xl font-bold mb-2">
+          <span className="text-red-600">LU</span>CribCheck
+        </h1>
 
-      <h2>Look for a house</h2>
-      <SearchBar />
+        <h2 className="mb-4 text-xl font-semibold">
+          Find real opinions of student accomodation
+        </h2>
 
-
-    </main>
+        <div className="w-4/5 xl:w-3/5">
+          <SearchBar />
+        </div>
+      </main>
+    </>
   );
 }

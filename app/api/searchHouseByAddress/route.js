@@ -1,5 +1,5 @@
 import { connectMongoDB } from "@/lib/mongodb";
-import House from "@/lib/models/house";
+import House from "@/lib/models/House";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

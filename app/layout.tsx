@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,8 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
+      <body
+        className={`${inter} bg-fixed bg-[url('../assets/bg2-normal.jpg')] lg:bg-[url('../assets/bg2-bigger.jpg')]   xl:bg-[url('../assets/bg2-bigger2.jpg')] bg-cover`}
+      >
+        <main className="bg-base-100/20 backdrop-blur-md">
+          <Navbar />
+          {children}
+        </main>
       </body>
     </html>
   );

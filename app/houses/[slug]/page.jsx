@@ -2,11 +2,11 @@
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import DefaultHouse from "@/assets/defaultHouse.webp";
 
 export default function HouseDetails() {
   const router = useRouter();
   const slug = useParams().slug;
-  console.log("I am the slug: ", slug);
   const [house, setHouse] = useState(null);
 
   useEffect(() => {
@@ -39,23 +39,24 @@ export default function HouseDetails() {
   if (!house) return <div>Loading...</div>;
 
   return (
-    <div className="container">
+    <div className="container lg:flex items-center">
       <Image
-        src={house.image}
+        src={house.image || DefaultHouse}
         alt={`${house.address} image`}
-        width={1000}
+        width={800}
         height={600}
-        layout="responsive"
       />
-      <h1 className="text-3xl">{house.address}</h1>
-      <div className="details">
-        <p>Price per week: £{house.ppw}</p>
-        <p>Bedrooms: {house.bedrooms}</p>
-        <p>Bathrooms: {house.bathrooms}</p>
-        <p>Total weeks: {house.totalweeks}</p>
-        <p>Total price: £{house.totalweeks * house.ppw}</p>
-        <p>Rating: {house.rating}</p>
-      </div>
+      <section>
+        <h1 className="text-3xl">{house.address}</h1>
+        <div className="details">
+          <p>Price per week: £{house.ppw}</p>
+          <p>Bedrooms: {house.bedrooms}</p>
+          <p>Bathrooms: {house.bathrooms}</p>
+          <p>Total weeks: {house.totalweeks}</p>
+          <p>Total price: £{house.totalweeks * house.ppw}</p>
+          <p>Rating: {house.rating}</p>
+        </div>
+      </section>
     </div>
   );
 }
