@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import LogInButton from "@/components/auth/LogInButton";
-import SearchBar from "@/components/SearchBar";
+import SearchNavBar from "@/components/SearchNavBar";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -17,7 +17,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <SearchBar />
+        <SearchNavBar />
       </div>
       {loggedIn ? (
         (<LogInButton />)(

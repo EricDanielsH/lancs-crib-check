@@ -71,7 +71,7 @@ export default function SearchBar() {
       </div>
 
       <div
-        className={`backdrop-blur-sm  absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80  rounded ${searchTerm ? "p-4" : ""}`}
+        className={`top-[calc(100% - 0.5rem)] right-0 backdrop-blur-sm max-w-lg absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80  rounded ${searchTerm ? "p-4" : ""}`}
         onClick={handleHouseClick}
       >
         {houses.map((house) => (

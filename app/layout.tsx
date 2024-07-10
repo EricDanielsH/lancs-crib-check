@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter} bg-fixed bg-[url('../assets/bg2-normal.jpg')] lg:bg-[url('../assets/bg2-bigger.jpg')]   xl:bg-[url('../assets/bg2-bigger2.jpg')] bg-cover`}
+        className={`${inter} bg-fixed bg-[url('../assets/bg2-normal.jpg')] lg:bg-[url('../assets/bg2-bigger.jpg')]   xl:bg-[url('../assets/bg2-bigger2.jpg')] bg-cover h-full w-screen max-w-full`}
       >
         <main className="bg-base-100/20 backdrop-blur-md">
           <Navbar />

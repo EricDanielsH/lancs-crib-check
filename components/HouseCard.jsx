@@ -12,7 +12,7 @@ export default function HouseCard({
 }) {
   return (
     <div className="card card-side bg-base-100 shadow-xl">
-      <figure className="relative w-1/3 md:w-2/3 h-64">
+      <figure className="relative w-2/3  h-64">
         <Image
           src={defaultHouse || image}
           alt={`${address} image`}

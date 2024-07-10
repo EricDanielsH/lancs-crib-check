@@ -8,7 +8,7 @@ import SearchBar from "@/components/SearchBar";
 export default function Home() {
   return (
     <>
-      <main className="container mx-auto flex items-center justify-center flex-col h-screen w-screen ">
+      <main className="container mx-auto flex items-center justify-center flex-col h-screen max-w-screen ">
         <h1 className="text-4xl font-bold mb-2">
           <span className="text-red-600">LU</span>CribCheck
         </h1>

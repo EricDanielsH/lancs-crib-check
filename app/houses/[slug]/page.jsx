@@ -39,23 +39,23 @@ export default function HouseDetails() {
   if (!house) return <div>Loading...</div>;
 
   return (
-    <div className="container lg:flex items-center">
+    <div className="container lg:flex items-center h-full">
       <Image
         src={house.image || DefaultHouse}
         alt={`${house.address} image`}
         width={800}
         height={600}
       />
-      <section>
-        <h1 className="text-3xl">{house.address}</h1>
-        <div className="details">
-          <p>Price per week: £{house.ppw}</p>
-          <p>Bedrooms: {house.bedrooms}</p>
-          <p>Bathrooms: {house.bathrooms}</p>
-          <p>Total weeks: {house.totalweeks}</p>
-          <p>Total price: £{house.totalweeks * house.ppw}</p>
-          <p>Rating: {house.rating}</p>
-        </div>
+      <section className="bg-base-100 p-8">
+        <h2 className="text-6xl font-bold">{house.address}</h2>
+        <ul className="details">
+          <li>Price per week: £{house.ppw}</li>
+          <li>Bedrooms: {house.bedrooms}</li>
+          <li>Bathrooms: {house.bathrooms}</li>
+          <li>Total weeks: {house.totalweeks}</li>
+          <li>Total price: £{house.totalweeks * house.ppw}</li>
+          <li>Rating: {house.rating}</li>
+        </ul>
       </section>
     </div>
   );
