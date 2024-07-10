@@ -69,9 +69,9 @@ export default function SearchBar() {
       ) : (
         <div className="flex flex-col gap-4 xl:w-4/5">
           {houses.map((house) => (
-            <Link href={`/houses/${house.id}`} key={house.id}>
+            <Link href={`/houses/${house.slug}`} key={house.slug}>
               <HouseCard
-                key={house.id}
+                key={house.slug}
                 address={house.address}
                 ppw={house.ppw}
                 bedrooms={house.bedrooms}
