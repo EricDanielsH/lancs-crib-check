@@ -2,10 +2,19 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import HouseCard from "@/components/HouseCard";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [houses, setHouses] = useState([]);
+
+  function handleKeyPress(event) {
+    if (event.key === "Enter" && houses.length > 0) {
+      handleHouseClick();
+      router.push(`/houses/${houses[0].slug}`);
+    }
+  }
 
   function handleHouseClick() {
     setSearchTerm("");
@@ -47,6 +56,7 @@ export default function SearchBar() {
             aria-describedby="button-addon2"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
 
           {/* <!--Search icon--> */}
