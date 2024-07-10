@@ -12,10 +12,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { slug, address, ppw, totalweeks, bedrooms, bathrooms  } = await req.json();
+    const { slug, address, ppw, totalweeks, bedrooms, bathrooms, rating  } = await req.json();
 
     await connectMongoDB();
-    await House.create({ slug, address, ppw, totalweeks, bedrooms, bathrooms });
+    await House.create({ slug, address, ppw, totalweeks, bedrooms, bathrooms, rating });
     
     return NextResponse.json({ message: "House registered successfully", status: 200});
   } catch (error) {

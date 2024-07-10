@@ -3,6 +3,7 @@ import "./globals.css";
 import LogInButton from "@/components/auth/LogInButton";
 import RegisterButton from "@/components/auth/RegisterButton";
 import HouseList from "@/components/HouseList";
+import SearchBar from "@/components/SearchBar";
 
 export default function Home() {
   return (
@@ -11,7 +12,9 @@ export default function Home() {
       <LogInButton />
       <RegisterButton />
 
-      <HouseList />
+      <h2>Look for a house</h2>
+      <SearchBar />
+
 
     </main>
   );

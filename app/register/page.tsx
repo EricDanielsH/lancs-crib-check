@@ -1,12 +1,9 @@
-import SignInGoogle from "@/components/SignInGoogle";
-import RegisterEmail from "@/components/RegisterEmail";
 import { useSession } from "next-auth/client";
 
 export default function Register() {
   return (
     <main>
-      <RegisterEmail />
-      <SignInGoogle />
+      <h1>Register here</h1>
     </main>
   );
 }

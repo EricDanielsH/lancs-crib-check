@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function RegisterHouseForm() {
   const router = useRouter();
@@ -16,6 +16,12 @@ export default function RegisterHouseForm() {
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (address) {
+      setSlug(createSlug(address));
+    }
+  }, [address]);
+
   function createSlug(address) {
     return address.split(" ").join("-").toLowerCase();
   }
@@ -23,13 +29,17 @@ export default function RegisterHouseForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (!address || !ppw || !totalweeks || !bedrooms || !bathrooms) {
+    console.log("Slug before sumbission: ", slug);
+
+    if (!address || !ppw || !totalweeks || !bedrooms || !bathrooms || !rating) {
       setError("Please fill in all the fields");
       return;
     }
 
-    setSlug(createSlug(address));
-    console.log(slug);
+    if (rating > 5 || rating < 1) {
+      setError("Rating must be between 1 and 5");
+      return;
+    }
 
     const response = await fetch("/api/registerHouse", {
       method: "POST",
@@ -41,6 +51,7 @@ export default function RegisterHouseForm() {
         totalweeks,
         bedrooms,
         bathrooms,
+        rating,
       }),
     });
 
@@ -109,53 +120,16 @@ export default function RegisterHouseForm() {
           onChange={(e) => setBathrooms(e.target.value)}
         />
       </label>
-      <label className=" flex items-center gap-2 w-full">
-        <h3 className>Rating</h3>
-        1
+      <label className="input input-bordered flex items-center gap-2 w-full">
+        Rating
         <input
-          type="radio"
-          name="radio-1"
-          className="radio"
-          value="1"
-          checked={rating === 1}
-          onChange={() => setRating(1)}
+          type="number"
+          className="bg-blue-100"
+          placeholder="1"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
         />
-        2
-        <input
-          type="radio"
-          name="radio-1"
-          className="radio"
-          value="2"
-          checked={rating === 2}
-          onChange={() => setRating(2)}
-        />
-        3
-        <input
-          type="radio"
-          name="radio-1"
-          className="radio"
-          value="3"
-          checked={rating === 3}
-          onChange={() => setRating(3)}
-        />
-        4
-        <input
-          type="radio"
-          name="radio-1"
-          className="radio"
-          value="4"
-          checked={rating === 4}
-          onChange={() => setRating(4)}
-        />
-        5
-        <input
-          type="radio"
-          name="radio-1"
-          className="radio"
-          value="5"
-          checked={rating === 5}
-          onChange={() => setRating(5)}
-        />
+        / 5
       </label>
 
       <div
