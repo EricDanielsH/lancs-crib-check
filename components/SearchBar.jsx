@@ -30,8 +30,8 @@ export default function SearchBar() {
   }, [searchTerm]);
 
   return (
-    <>
-      <div className="mb-3 xl:w-96">
+    <section className="w-full bg-orange-100 flex flex-col items-center">
+      <div className="mb-3 xl:w-4/5">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <input
             type="search"
@@ -67,7 +67,7 @@ export default function SearchBar() {
       {houses.length === 0 ? (
         <p>No houses found.</p>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col gap-4 xl:w-4/5">
           {houses.map((house) => (
             <Link href={`/houses/${house.id}`} key={house.id}>
               <HouseCard
@@ -83,6 +83,6 @@ export default function SearchBar() {
           ))}
         </div>
       )}
-    </>
+    </section>
   );
 }

@@ -7,7 +7,7 @@ import SearchBar from "@/components/SearchBar";
 
 export default function Home() {
   return (
-    <main className="container">
+    <main className="container mx-auto">
       <h1>THE HOMEEEE</h1>
       <LogInButton />
       <RegisterButton />
