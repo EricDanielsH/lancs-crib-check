@@ -27,7 +27,7 @@ export default function HouseCard({
           <li>{bedrooms} bedrooms</li>
           <li>{bathrooms} bathrooms</li>
           <li className="flex">
-            {rating}/5 <StarRating />
+            {rating}/5 <StarRating size={20}/>
           </li>
         </ul>
       </div>
