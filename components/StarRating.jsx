@@ -1,9 +1,9 @@
-export default function StarRating() {
+export default function StarRating({ size }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="25"
-      height="25"
+      width={size}
+      height={size}
       viewBox="0 0 256 256"
     >
       <defs></defs>
