@@ -84,19 +84,23 @@ export default function SearchBar() {
         className={`backdrop-blur-sm  absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80  rounded ${searchTerm ? "p-4" : ""}`}
         onClick={handleHouseClick}
       >
-        {houses.map((house) => (
-          <Link href={`/houses/${house.slug}`} key={house.slug}>
-            <HouseCard
-              key={house.slug}
-              address={house.address}
-              ppw={house.ppw}
-              bedrooms={house.bedrooms}
-              bathrooms={house.bathrooms}
-              image={house.image}
-              rating={house.rating}
-            />
-          </Link>
-        ))}
+        {houses.length == 0 && searchTerm !== "" ? (
+          <div className="text-center">No houses found :(</div>
+        ) : (
+          houses.map((house) => (
+            <Link href={`/houses/${house.slug}`} key={house.slug}>
+              <HouseCard
+                key={house.slug}
+                address={house.address}
+                ppw={house.ppw}
+                bedrooms={house.bedrooms}
+                bathrooms={house.bathrooms}
+                image={house.image}
+                rating={house.rating}
+              />
+            </Link>
+          ))
+        )}
       </div>
     </section>
   );
