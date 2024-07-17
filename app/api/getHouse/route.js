@@ -13,7 +13,7 @@ export async function POST(req) {
   } catch (error) {
     console.error(error);
     return NextResponse.error(
-      { message: "An error occurred while finding House object." },
+      { message: "An error occurred while getting House object." },
       { status: 500 },
     );
   }

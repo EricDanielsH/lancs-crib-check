@@ -12,9 +12,19 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+ul,
+ol {
+  margin-left: 20px;
+  list-style-position: inside;
+}
+
+ul li,
+ol li {
+  margin-bottom: 5px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
-

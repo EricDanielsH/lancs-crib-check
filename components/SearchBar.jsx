@@ -21,8 +21,6 @@ export default function SearchBar() {
   }
 
   useEffect(() => {
-    console.log("searchTerm", searchTerm);
-
     async function searchHouses(term) {
       const res = await fetch("/api/searchHouseByAddress", {
         method: "POST",
