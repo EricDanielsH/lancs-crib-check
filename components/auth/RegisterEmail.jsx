@@ -2,13 +2,19 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-
 export default function SignInEmail() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  function isValidEmail(email) {
+    const emailRegex = new RegExp(
+      "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+    );
+    return emailRegex.test(email);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,14 +23,49 @@ export default function SignInEmail() {
       setError("Complete all fields.");
       return;
     }
+
+    if (!isValidEmail(email)) {
+      setError("Invalid email.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+
+      document.getElementById("form").reset();
+      router.push("/login");
+    } catch (error) {
+      console.error(error);
+      setError("An error occurred while creating the account");
+    }
+
     setError("");
-
-
   };
 
   return (
-    <div className="flex flex-col items-center bg-red-100">
-      <form className="w-fit p-8 flex flex-col gap-2" onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center  justify-center bg-red-800 rounded-xl">
+      <form
+        id="form"
+        className="w-fit p-8 flex flex-col gap-2"
+        onSubmit={handleSubmit}
+      >
         <label className="input input-bordered flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +124,7 @@ export default function SignInEmail() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button className="btn" type="submit">
+        <button className="btn mt-8" type="submit">
           Register
         </button>
       </form>

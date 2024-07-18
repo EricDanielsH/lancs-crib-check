@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+//import { signIn, auth } from "@/auth";
 
 export default function SignInEmail() {
   const router = useRouter();
@@ -15,21 +16,29 @@ export default function SignInEmail() {
       setError("Complete all fields.");
       return;
     }
-    setError("");
 
-    try {
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
+    if (res.error) {
+      setError(res.error);
+    } else {
+      document.getElementById("form").reset();
       router.push("/");
-    } catch (e) {
-      console.log("Error checking user existence:", e);
-      setError("An error occurred while checking user existence.");
-      return;
     }
+    setError("");
   };
 
   return (
-    <div className="flex flex-col items-center bg-green-100">
-      <form className="w-fit p-8 flex flex-col gap-2" onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center bg-red-800 rounded-xl">
+      <form
+        id="form"
+        className="w-fit p-8 flex flex-col gap-2"
+        action={handleSubmit}
+      >
         <label className="input input-bordered flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +50,7 @@ export default function SignInEmail() {
             <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
           </svg>
           <input
-            type="text"
+            type="email"
             name="email"
             className="grow"
             placeholder="Email"
@@ -71,7 +80,7 @@ export default function SignInEmail() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button className="btn" type="submit">
+        <button className="btn mt-8" type="submit">
           Login
         </button>
       </form>
