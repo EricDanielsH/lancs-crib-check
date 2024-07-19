@@ -16,7 +16,7 @@ export async function POST(req) {
       body: JSON.stringify({ email: author }),
     });
 
-    const {user} = await res.json();
+    const { user } = await res.json();
 
     console.log(user);
 
@@ -35,7 +35,6 @@ export async function POST(req) {
     const newOpinion = await new Opinion({
       authorId: user._id,
       authorName: user.name,
-
       text,
       yearOfResidence,
       rating,
@@ -45,6 +44,12 @@ export async function POST(req) {
 
     await newOpinion.save();
     house.opinions.push(newOpinion._id);
+
+    // Calculate the new average rating
+    const averageRating = (house.rating + newOpinion.rating) / 2;
+
+    // Update the house's rating
+    house.rating = averageRating;
     await house.save();
 
     return NextResponse.json({

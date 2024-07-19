@@ -25,7 +25,6 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
   const [error, setError] = useState("");
 
   async function handleSubmit(event) {
-    event.preventDefault();
 
     if (opinion == "" || rating == "") {
       setError("Opinion and rating are required");
