@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-//import { signIn, auth } from "@/auth";
+import { signIn } from "next-auth/react";
 
 export default function SignInEmail() {
   const router = useRouter();
@@ -17,19 +17,50 @@ export default function SignInEmail() {
       return;
     }
 
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (res.error) {
-      setError(res.error);
-    } else {
-      document.getElementById("form").reset();
-      router.push("/");
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
     }
-    setError("");
+    try {
+      let res = await fetch("/api/findUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const { message } = await res.json();
+        setError(message);
+        return;
+      }
+
+      res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res.error) {
+        console.log("Error when logging in", res);
+        setError(res.error);
+      } else {
+        setError("");
+        document.getElementById("form").reset();
+        router.push("/");
+      }
+    } catch (e) {
+      console.error("Error when finding user", e);
+      setError(e || "An error occurred while finding the user.");
+      return;
+    }
+
+    try {
+    } catch (e) {
+      console.error("Error when logging in", e);
+      setError(e || "An error occurred while logging in.");
+    }
   };
 
   return (
@@ -37,7 +68,7 @@ export default function SignInEmail() {
       <form
         id="form"
         className="w-fit p-8 flex flex-col gap-2"
-        action={handleSubmit}
+        onSubmit={handleSubmit}
       >
         <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -87,7 +118,7 @@ export default function SignInEmail() {
 
       <div
         role="alert"
-        className={`w-fit alert alert-error ${error === "" ? "hidden" : ""}`}
+        className={`m-4 w-fit alert alert-error ${error === "" ? "hidden" : ""}`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

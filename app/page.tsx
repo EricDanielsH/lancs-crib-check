@@ -4,8 +4,11 @@ import LogInButton from "@/components/auth/LogInButton";
 import RegisterButton from "@/components/auth/RegisterButton";
 import HouseList from "@/components/HouseList";
 import SearchBar from "@/components/SearchBar";
+import { auth } from "@/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
   return (
     <>
       <main className="container mx-auto flex items-center justify-center flex-col h-screen max-w-screen ">
@@ -17,6 +20,17 @@ export default function Home() {
           Find real opinions of student accomodation
         </h2>
 
+        {session ? (
+          <>
+            <div>Estoy DENTR!!!!!</div>
+            <p>{JSON.stringify(session)}</p>
+          </>
+        ) : (
+          <>
+            <div>wotefokk nadda sale</div>
+            <p>{JSON.stringify(session)}</p>
+          </>
+        )}
         <div className="w-4/5 xl:w-3/5">
           <SearchBar />
         </div>
