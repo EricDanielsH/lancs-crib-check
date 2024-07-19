@@ -17,10 +17,25 @@ export async function POST(req) {
       text,
       rating,
       yearOfResidence,
+      authorEmail,
     } = await req.json();
 
-    console.log("Address back: ", address)
-    console.log("opinoin back: ", text)
+    console.log("Address back: ", address);
+    console.log("opinoin back: ", text);
+    const res = await fetch("http://localhost:3000/api/findUserByEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: authorEmail }),
+    });
+
+    if (res.status !== 200) {
+      return NextResponse.error({ message: "User not found" }, { status: 404 });
+    }
+
+    const { user } = await res.json();
+    if (!user) {
+      return NextResponse.error({ message: "User not found" }, { status: 404 });
+    }
 
     await connectMongoDB();
 
@@ -43,10 +58,10 @@ export async function POST(req) {
     });
     const newOpinion = await new Opinion({
       text,
-      author: "Messi" || req.user._id,
       rating,
       yearOfResidence,
-
+      authorId: user._id,
+      authorName: user.name,
     });
 
     newHouse.opinions.push(newOpinion._id);

@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import DOMPurify from "dompurify";
+import { useSession } from "next-auth/react";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 export default function RegisterHouseForm() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [slug, setSlug] = useState("");
   const [address, setAddress] = useState("");
@@ -108,6 +110,7 @@ export default function RegisterHouseForm() {
         text: sanitizedOpinion,
         rating,
         yearOfResidence,
+        authorEmail: session.user.email,
       }),
     });
 

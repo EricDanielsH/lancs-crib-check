@@ -7,11 +7,14 @@ import StarRating from "@/components/StarRating";
 import AddOpinionForm from "@/components/AddOpinionForm";
 import { FaBed, FaBath, FaCalendarWeek } from "react-icons/fa";
 import OpinionCard from "@/components/OpinionCard";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function HouseDetails() {
   const slug = useParams().slug;
   const [house, setHouse] = useState(null);
   const [opinions, setOpinions] = useState([]);
+  const { data: session } = useSession();
 
   async function fetchHouse(slug) {
     if (slug) {
@@ -36,7 +39,6 @@ export default function HouseDetails() {
       }
     }
   }
-
 
   async function fetchOpinions(slug) {
     if (slug) {
@@ -63,17 +65,12 @@ export default function HouseDetails() {
     }
   }
 
-
   const handleOpinionAdded = () => {
     // Fetch opinions again after adding a new opinion
     fetchOpinions(slug);
   };
 
-
-
   useEffect(() => {
-
-
     fetchHouse(slug);
     fetchOpinions(slug);
   }, [slug]);
@@ -125,7 +122,19 @@ export default function HouseDetails() {
       <div className="container flex flex-col justify-center items-center h-full">
         <section className="backdrop-blur-xl p-8 w-full lg:w-3/4 flex flex-col justify-center">
           <h3 className="text-4xl font-bold mb-4">Opinions</h3>
-          <AddOpinionForm slug={slug} onAddOpinion={handleOpinionAdded} />
+          {session ? (
+            <AddOpinionForm slug={slug} onAddOpinion={handleOpinionAdded} />
+          ) : (
+            <p className="text-lg text-slate-700 p-4 rounded-lg bg-gradient-to-r from-red-200 to-red-200/10 mb-6">
+              If you want to add your opinion, please log in first.{" "}
+              <Link
+                href="/login"
+                className="underline text-blue-600 hover:text-blue-800 font-semibold"
+              >
+                Click here to Log In
+              </Link>
+            </p>
+          )}
           {opinions.map((opinion) => (
             <OpinionCard key={opinion._id} opinion={opinion} />
           ))}

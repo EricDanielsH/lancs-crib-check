@@ -5,18 +5,19 @@ import { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import DOMPurify from "dompurify";
 import dynamic from "next/dynamic";
+import { useSession } from "next-auth/react";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-//   house: { type: Schema.Types.ObjectId, ref: "House" },
 //   user: { type: Schema.Types.ObjectId, ref: "User" },
 //   text: { type: String, required: true },
 //   rating: { type: Number, required: true },
 //   yearOfResidence: { type: Number, required: true },
 // } ,{ timestamps: true });
 
-export default function AddOpinionForm({slug, onAddOpinion}) {
+export default function AddOpinionForm({ slug, onAddOpinion }) {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [opinion, setOpinion] = useState("");
   const [rating, setRating] = useState("");
@@ -57,7 +58,7 @@ export default function AddOpinionForm({slug, onAddOpinion}) {
         slug,
         text: sanitizedOpinion,
         rating,
-        author: "myUserId", // TODO: replace with the actual user id
+        author: session.user.email, // TODO: replace with the actual user id
         yearOfResidence,
       }),
     });
@@ -75,7 +76,7 @@ export default function AddOpinionForm({slug, onAddOpinion}) {
     <>
       <form
         id="form"
-        className="flex flex-col w-full bg-red-800 mb-10 p-8 justify-center items-center gap-3"
+        className="flex flex-col w-full bg-red-800 mb-10 p-8 justify-center items-center gap-3 rounded"
         onSubmit={handleSubmit}
       >
         <div className="flex w-full flex-col gap-4 items-center">
@@ -130,7 +131,7 @@ export default function AddOpinionForm({slug, onAddOpinion}) {
           </svg>
           <span>Error! {error}</span>
         </div>
-        <button className="btn btn-error" type="submit">
+        <button className="btn btn-error mt-4" type="submit">
           Add opinion
         </button>
       </form>

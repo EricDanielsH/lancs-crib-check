@@ -26,7 +26,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email: credentials.email, password: credentials.password}),
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
           });
 
           if (res.status !== 200) {
@@ -54,4 +57,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
   debug: true, // Enable debug mode to get more detailed error messages
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        // User is available during sign-in
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }: any) {
+      session.user.id = token.id;
+      return session;
+    },
+  },
 });
