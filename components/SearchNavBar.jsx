@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import HouseCard from "@/components/HouseCard";
 import { useRouter } from "next/navigation";
+import CantFindHouse from "@/components/CantFindHouse";
 
 export default function SearchBar() {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function SearchBar() {
         onClick={handleHouseClick}
       >
         {houses.length == 0 && searchTerm !== "" ? (
-          <div className="text-center">No houses found :(</div>
+          <CantFindHouse />
         ) : (
           houses.map((house) => (
             <Link href={`/houses/${house.slug}`} key={house.slug}>
