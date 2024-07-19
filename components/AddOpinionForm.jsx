@@ -64,7 +64,9 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
     });
 
     if (response.ok) {
-      document.getElementById("form").reset();
+      setOpinion(""); // Reset the opinion state
+      setRating(""); // Reset the rating state
+      setYearOfResidence(""); // Reset the yearOfResidence state
       onAddOpinion();
     } else {
       setError("An error occurred while registering the house");
