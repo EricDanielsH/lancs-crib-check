@@ -1,8 +1,4 @@
-import { useSession } from "next-auth/client";
 import "./globals.css";
-import LogInButton from "@/components/auth/LogInButton";
-import RegisterButton from "@/components/auth/RegisterButton";
-import HouseList from "@/components/HouseList";
 import SearchBar from "@/components/SearchBar";
 import { auth } from "@/auth";
 
