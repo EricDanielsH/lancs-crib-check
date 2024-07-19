@@ -5,7 +5,10 @@ export default function Footer() {
     <footer className="footer footer-center bg-red-800 text-base-200 p-10">
       <aside>
         <p className="font-bold text-xl">
-          <span className="text-red-500">LU</span>CribCheck
+          <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+            LU
+          </span>
+          CribCheck
         </p>
 
         <Link

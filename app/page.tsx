@@ -9,7 +9,10 @@ export default async function Home() {
     <>
       <main className="container mx-auto flex items-center justify-center flex-col h-screen max-w-screen ">
         <h1 className="text-4xl font-bold mb-2">
-          <span className="text-red-600">LU</span>CribCheck
+          <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+            LU
+          </span>
+          CribCheck
         </h1>
 
         <h2 className="mb-4 text-xl font-semibold">
@@ -19,7 +22,7 @@ export default async function Home() {
         {session ? (
           <>
             <div>Estoy DENTR!!!!!</div>
-            <p>{JSON.stringify(session)}</p>
+            <p>{JSON.stringify(session.user)}</p>
           </>
         ) : (
           <>

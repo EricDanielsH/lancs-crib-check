@@ -23,7 +23,7 @@ export default function Navbar() {
       <div className="flex-1">
         <Link href="/" className="btn btn-ghost text-xl">
           <h2>
-            <span className="text-red-600">LU</span>CribCheck
+            <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">LU</span>CribCheck
           </h2>
         </Link>
       </div>
@@ -37,37 +37,34 @@ export default function Navbar() {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
-              <Image
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                width={40}
-                height={40}
-              />
+            <div class="avatar online placeholder">
+              <div class="bg-neutral text-neutral-content w-10 rounded-full">
+                <span class="text-lg">{session.user.name[0]}</span>
+              </div>
             </div>
           </div>
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
+            <p className="text-xl font-semibold p-2 w-full">
+              Hello,{" "}
+              <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+                {session.user.name}
+              </span>
+              !{" "}
+            </p>
             <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
+              <a href="/registerHouse">Add a house</a>
             </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li onClick={() => signOut()} >
+            <li onClick={() => signOut()}>
               <a>Logout</a>
             </li>
-        </ul>
+          </ul>
         </div>
-  ) : (
-    <LogInButton />
-  )
-}
-    </div >
+      ) : (
+        <LogInButton />
+      )}
+    </div>
   );
 }
