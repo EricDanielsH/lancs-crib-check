@@ -16,20 +16,9 @@ export default async function Home() {
         </h1>
 
         <h2 className="mb-4 text-xl font-semibold">
-          Find real opinions of student accomodation
+          Find student opinions on student accomodation
         </h2>
 
-        {session ? (
-          <>
-            <div>Estoy DENTR!!!!!</div>
-            <p>{JSON.stringify(session.user)}</p>
-          </>
-        ) : (
-          <>
-            <div>wotefokk nadda sale</div>
-            <p>{JSON.stringify(session)}</p>
-          </>
-        )}
         <div className="w-4/5 xl:w-3/5">
           <SearchBar />
         </div>
