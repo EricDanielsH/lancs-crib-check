@@ -24,9 +24,12 @@ export async function POST(req) {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Fix the name
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase
+
     // Create the user
     await User.create({
-      name,
+      name: capitalizedName,
       email,
       password: hashedPassword,
     });
