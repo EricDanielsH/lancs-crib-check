@@ -46,10 +46,10 @@ export default function SearchBar() {
   return (
     <section className="max-w-full flex h-fit flex-col items-center">
       <div className="w-full z-10">
-        <div className="relative flex w-full  items-stretch bg-base-100 rounded">
+        <div className="relative flex w-full  items-stretch bg-base-100 rounded-lg">
           <input
             type="search"
-            className="relative m-0 block flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+            className="relative m-0 block flex-auto rounded-lg border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
             placeholder="Search"
             aria-label="Search"
             aria-describedby="button-addon2"
@@ -80,7 +80,7 @@ export default function SearchBar() {
       </div>
 
       <div
-        className={`top-[calc(100% - 0.5rem)] right-0 backdrop-blur-sm max-w-lg absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80  rounded ${searchTerm ? "p-4" : ""}`}
+        className={`top-[calc(100% - 0.5rem)] right-0 backdrop-blur-sm max-w-lg absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80  rounded-lg ${searchTerm ? "p-4" : ""}`}
         onClick={handleHouseClick}
       >
         {houses.length == 0 && searchTerm !== "" ? (
