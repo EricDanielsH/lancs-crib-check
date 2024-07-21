@@ -42,7 +42,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error("No user found with this email");
           }
 
-          return { email: user.email, name: user.name };
+          console.log("User found auth:", user);
+
+          return user;
         } catch (error: any) {
           console.error("Error in authorization:", error.message);
           throw new Error(error.message || "Authorization failed");
@@ -58,10 +60,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   debug: true, // Enable debug mode to get more detailed error messages
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user }: any) {
       if (user) {
         // User is available during sign-in
-        token.id = user.id;
+        token.id = user._id;
       }
       return token;
     },
