@@ -9,6 +9,7 @@ import { FaBed, FaBath, FaCalendarWeek } from "react-icons/fa";
 import OpinionCard from "@/components/OpinionCard";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import HouseStats from "@/components/HouseStats";
 
 export default function HouseDetails() {
   const slug = useParams().slug;
@@ -86,40 +87,17 @@ export default function HouseDetails() {
           width={800}
           height={600}
         />
-        <section className="backdrop-blur-xl p-8 w-full xl:w-1/2">
+        <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg">
           <p>Last updated: {new Date(house.updatedAt).toLocaleDateString()}</p>
           <h2 className="text-6xl font-bold mb-4 text-slate-800">
             {house.address}
           </h2>
-          <div className="flex items-center justify-between gap-4  mb-8">
-            <h3
-              className="text-4xl font-semibold text-slate-700
-            "
-            >
-              £{house.ppw}/pppw
-            </h3>
-            <h3 className="text-4xl flex items-center text-slate-700">
-              {house.rating}
-              <span className="text-base mx-2">/ 5</span>
-              <StarRating size={30} />
-            </h3>
-          </div>
 
-          <div className="flex gap-10">
-            <div className="flex flex-col items-center justify-center gap-2 text-slate-700">
-              <FaBed className="text-3xl" /> {house.bedrooms} bdrm.
-            </div>
-            <div className="flex flex-col items-center justify-center gap-2 text-slate-700">
-              <FaBath className="text-3xl" /> {house.bathrooms} bathrooms
-            </div>
-            <div className="flex flex-col items-center justify-center gap-2 text-slate-700">
-              <FaCalendarWeek className="text-3xl" /> {house.totalweeks} weeks
-            </div>
-          </div>
+          <HouseStats house={house} />
         </section>
       </div>
 
-      <div className="container flex flex-col justify-center items-center h-full">
+      <div className="container flex flex-col justify-center items-center h-full rounded-lg">
         <section className="backdrop-blur-xl p-8 w-full lg:w-3/4 flex flex-col justify-center">
           <h3 className="text-4xl font-bold mb-4">Opinions</h3>
           {session ? (
