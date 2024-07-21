@@ -11,9 +11,22 @@ const config: Config = {
     container: {
       center: true,
     },
-    extend: {
-    },
+    extend: {},
   },
-  plugins: [require("daisyui"), require("@tailwindcss/typography")],
+  plugins: [
+    require("daisyui"),
+    require("@tailwindcss/typography"),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".red-grad": {
+          backgroundImage: "linear-gradient(to right, #ef4444, #b91c1c)",
+          backgroundClip: "text",
+          textFillColor: "transparent",
+        },
+      };
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+  ],
 };
+
 export default config;
