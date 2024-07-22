@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
-import {auth} from "@/auth"
+import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,20 +18,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const session = await auth()
+  const session = await auth();
 
   return (
     <html lang="en">
       <body
-        className={`${inter} bg-fixed bg-[url('../assets/bg2-normal.jpg')] lg:bg-[url('../assets/bg2-bigger.jpg')]   xl:bg-[url('../assets/bg2-bigger2.jpg')] bg-cover h-full w-screen max-w-full`}
+        className={`${inter} bg-fixed bg-[url('../assets/bg2-bigger.jpg')]    bg-cover h-full w-screen max-w-full min-h-screen flex flex-col`}
       >
         <SessionProvider session={session}>
-        <main className="bg-base-100/20 backdrop-blur-md">
-          <Navbar />
-          {children}
-        </main>
-        <Footer />
+          <main className="bg-base-100/20 backdrop-blur-md flex-grow flex flex-col">
+            <Navbar />
+            {children}
+          </main>
+          <Footer />
         </SessionProvider>
       </body>
     </html>

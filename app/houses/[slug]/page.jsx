@@ -80,12 +80,13 @@ export default function HouseDetails() {
 
   return (
     <>
-      <div className="container flex flex-col justify-center xl:flex-row items-center h-full mb-20">
+      <div className="container flex flex-col justify-center xl:flex-row items-center mb-20 mt-8 gap-4">
         <Image
           src={house.mediaUrl || DefaultHouse}
           alt={`${house.address} image`}
           width={800}
           height={600}
+          className="rounded-lg"
         />
         <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg">
           <p>Last updated: {new Date(house.updatedAt).toLocaleDateString()}</p>
@@ -97,7 +98,7 @@ export default function HouseDetails() {
         </section>
       </div>
 
-      <div className="container flex flex-col justify-center items-center h-full rounded-lg">
+      <div className="container flex flex-col justify-center items-center rounded-lg">
         <section className="backdrop-blur-xl p-8 w-full lg:w-3/4 flex flex-col justify-center">
           <h3 className="text-4xl font-bold mb-4">Opinions</h3>
           {session ? (

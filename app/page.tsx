@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="container mx-auto flex items-center justify-center flex-col h-screen max-w-screen ">
+      <main className="container mx-auto flex items-center justify-center flex-col max-w-screen h-full">
         <h1 className="text-4xl font-bold mb-2">
           <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
             LU

@@ -44,7 +44,7 @@ export default function SearchBar() {
   }, [searchTerm]);
 
   return (
-    <section className="max-w-full flex h-fit flex-col items-center">
+    <section className="max-w-full flex h-fit flex-col items-center rounded-lg">
       <div className="w-full z-10">
         <div className="relative flex w-full  items-stretch bg-base-100 rounded-lg">
           <input
@@ -60,7 +60,7 @@ export default function SearchBar() {
 
           {/* <!--Search icon--> */}
           <span
-            className="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
+            className="input-group-text flex items-center whitespace-nowrap rounded-lg px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
             id="basic-addon2"
           >
             <svg
@@ -90,12 +90,7 @@ export default function SearchBar() {
             <Link href={`/houses/${house.slug}`} key={house.slug}>
               <HouseCard
                 key={house.slug}
-                address={house.address}
-                ppw={house.ppw}
-                bedrooms={house.bedrooms}
-                bathrooms={house.bathrooms}
-                image={house.image}
-                rating={house.rating}
+                  house={house}
               />
             </Link>
           ))

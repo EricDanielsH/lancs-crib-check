@@ -45,7 +45,7 @@ export default function SearchBar() {
 
   return (
     <section className="max-w-full flex h-fit flex-col items-center">
-      <div className="w-full z-10">
+      <div className="w-[85%] z-10">
         <div className="relative flex w-full  items-stretch bg-base-100 rounded-lg">
           <input
             type="search"
@@ -80,7 +80,7 @@ export default function SearchBar() {
       </div>
 
       <div
-        className={` backdrop-blur-sm  absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80  rounded-lg ${searchTerm ? "p-4" : ""}`}
+        className={` backdrop-blur-sm  absolute flex flex-col gap-4 w-4/5 mt-16 z-50 overflow-y-auto max-h-80 max-w-[80%] lg:max-w-[70%]  rounded-lg ${searchTerm ? "p-4" : ""}`}
         onClick={handleHouseClick}
       >
         {houses.length == 0 && searchTerm !== "" ? (
@@ -88,15 +88,7 @@ export default function SearchBar() {
         ) : (
           houses.map((house) => (
             <Link href={`/houses/${house.slug}`} key={house.slug}>
-              <HouseCard
-                key={house.slug}
-                address={house.address}
-                ppw={house.ppw}
-                bedrooms={house.bedrooms}
-                bathrooms={house.bathrooms}
-                image={house.image}
-                rating={house.rating}
-              />
+              <HouseCard key={house.slug} house={house} />
             </Link>
           ))
         )}
