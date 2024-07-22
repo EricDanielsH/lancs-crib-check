@@ -8,9 +8,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   const { data: session } = useSession();
-  const cock = useSession()
-  console.log(session);
-  console.log("cock", cock)
+  console.log("data", session);
 
 
   return (

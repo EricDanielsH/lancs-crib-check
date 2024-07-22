@@ -4,6 +4,7 @@ import Opinion from "@/lib/models/opinion";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
+  console.log("Received request"); // Added log at the start
   try {
     const {
       // House fields
@@ -13,6 +14,8 @@ export async function POST(req) {
       totalweeks,
       bedrooms,
       bathrooms,
+      mediaId,
+      mediaUrl,
       // Opinion fields
       text,
       rating,
@@ -22,6 +25,7 @@ export async function POST(req) {
 
     console.log("Address back: ", address);
     console.log("opinoin back: ", text);
+    console.log("mediaId back: ", mediaId);
     const res = await fetch("http://localhost:3000/api/findUserByEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -55,6 +59,8 @@ export async function POST(req) {
       bathrooms,
       rating,
       opinions: [],
+      mediaId,
+      mediaUrl,
     });
     const newOpinion = await new Opinion({
       text,
@@ -68,6 +74,9 @@ export async function POST(req) {
 
     await newHouse.save();
     await newOpinion.save();
+
+    console.log("House: ", newHouse);
+    console.log("House created successfully");
 
     return NextResponse.json({
       message: "House registered successfully",

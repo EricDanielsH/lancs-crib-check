@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import DOMPurify from "dompurify";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { getSignedURL } from "@/lib/actions";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -23,6 +25,18 @@ export default function RegisterHouseForm() {
   const [rating, setRating] = useState("");
   const [yearOfResidence, setYearOfResidence] = useState("");
   const [error, setError] = useState("");
+  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
+
+  const computeSHA256 = async (file) => {
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  };
 
   useEffect(() => {
     if (address) {
@@ -34,11 +48,71 @@ export default function RegisterHouseForm() {
     return address.split(" ").join("-").toLowerCase();
   }
 
+  function handleFileChange(event) {
+    // Extract the file from the event
+    const file = event.target.files?.[0];
+
+    // Update the state with the selected file
+    setFile(file);
+
+    // Log the file to the console for debugging
+    console.log("File: ", event.target.files?.[0]);
+
+    // Revoke the old object URL if one exists
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+    }
+
+    // If a new file is selected
+    if (file) {
+      // Create a new object URL for the file
+      const url = URL.createObjectURL(event.target.files?.[0]);
+
+      // Update the state with the new object URL
+      setFileUrl(url);
+    } else {
+      // If no file is selected, clear the file URL
+      setFileUrl(undefined);
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
 
-    console.log("Slug before sumbission: ", slug);
-    console.log("Text before sumbission: ", opinion);
+    // Upload the image to the S3 bucket
+    let media_Id = null;
+    let media_Url = null
+    if (file) {
+      console.log("Uploading image to S3 bucket...");
+      const checksum = await computeSHA256(file);
+      const signedURLResult = await getSignedURL(
+        file.type,
+        file.size,
+        file.name,
+        checksum,
+      );
+      console.log("signedURLResult: ", signedURLResult);
+
+      if (signedURLResult.error) {
+        setError("Error while uploading the image: ", error.message);
+        console.error(signedURLResult.error.message);
+        return;
+      }
+
+      const { url, mediaUrl, mediaId } = signedURLResult.success;
+      console.log("URL: ", url);
+      console.log("mediaId: ", mediaId);
+      media_Id = mediaId;
+      media_Url = mediaUrl;
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type,
+        },
+        body: file,
+      });
+      console.log("Image uploaded to S3 bucket");
+    }
 
     if (
       !address ||
@@ -90,10 +164,7 @@ export default function RegisterHouseForm() {
 
     const sanitizedAddress = DOMPurify.sanitize(address);
     const sanitizedOpinion = DOMPurify.sanitize(opinion);
-
-    console.log("Sanitized address: ", sanitizedAddress);
-    console.log("Opinion: ", opinion);
-    console.log("Sanitized opinion: ", sanitizedOpinion);
+    console.log("media_Id", media_Id);
 
     const response = await fetch("/api/registerHouse", {
       method: "POST",
@@ -106,6 +177,8 @@ export default function RegisterHouseForm() {
         totalweeks,
         bedrooms,
         bathrooms,
+        mediaId: media_Id || null,
+        mediaUrl: media_Url || null,
         // Opinion related fields
         text: sanitizedOpinion,
         rating,
@@ -113,6 +186,8 @@ export default function RegisterHouseForm() {
         authorEmail: session.user.email,
       }),
     });
+
+    console.log("resonses: ", response)
 
     if (response.ok) {
       document.getElementById("form").reset(); // Reset the form
@@ -130,7 +205,9 @@ export default function RegisterHouseForm() {
       onSubmit={handleSubmit}
     >
       <label className="input input-bordered flex items-center gap-2 w-full">
-        Address
+        <div>
+          Address <span className="text-red-500">*</span>
+        </div>
         <input
           type="text"
           className="grow"
@@ -140,7 +217,9 @@ export default function RegisterHouseForm() {
         />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
-        Price per week
+        <div>
+          Price per week <span className="text-red-500">*</span>
+        </div>
         <input
           type="number"
           className="grow"
@@ -150,7 +229,9 @@ export default function RegisterHouseForm() {
         />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
-        Total weeks
+        <div>
+          Total weeks <span className="text-red-500">*</span>
+        </div>
         <input
           type="number"
           className="grow"
@@ -160,7 +241,10 @@ export default function RegisterHouseForm() {
         />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
-        Total Bedrooms
+        <div>
+          Total Bedrooms <span className="text-red-500">*</span>
+        </div>
+
         <input
           type="number"
           className="grow"
@@ -170,7 +254,10 @@ export default function RegisterHouseForm() {
         />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
-        Total Bathrooms
+        <div>
+          Total Bathrooms <span className="text-red-500">*</span>
+        </div>
+
         <input
           type="number"
           className="grow"
@@ -187,9 +274,11 @@ export default function RegisterHouseForm() {
         className="w-full flex-2 bg-white"
       />
 
-      <div className="flex w-full flex-col xl:flex-row  gap-4 items-center">
+      <div className="flex w-full flex-col xl:flex-row  gap-4 items-center mb-2">
         <label className="input input-bordered flex items-center gap-2 w-full">
-          Rating
+          <div className="w-32">
+            Rating <span className="text-red-500">*</span>
+          </div>
           <input
             type="number"
             className=" w-full"
@@ -200,16 +289,55 @@ export default function RegisterHouseForm() {
           /5
         </label>
         <label className="input input-bordered flex items-center gap-2 w-full">
-          Year of residence
+          <div>
+            Year of residence <span className="text-red-500">*</span>
+          </div>
+
           <input
             type="number"
-            className=" w-fit"
+            className=" w-20"
             placeholder="2023"
             value={yearOfResidence}
             onChange={(e) => setYearOfResidence(e.target.value)}
           />
         </label>
       </div>
+
+      <div>
+        <label className="text-white flex items-center w-full mb-1">
+          {" "}
+          Add an image of the house (optional)
+        </label>
+        <input
+          type="file"
+          className="file-input w-full"
+          name="media"
+          accept=" image/jpeg, image/png, image/webp"
+          onChange={handleFileChange}
+        />
+      </div>
+
+      {fileUrl && file && (
+        <div className="flex flex-col justify-center gap-2">
+          <Image
+            src={fileUrl}
+            alt="House image"
+            className="object-cover"
+            width={200}
+            height={200}
+          />
+          <button
+            type="button"
+            className="border rounded-xl px-4 py-2 bg-base-100"
+            onClick={() => {
+              setFile(null);
+              setFileUrl(null);
+            }}
+          >
+            Remove
+          </button>
+        </div>
+      )}
 
       <div
         role="alert"

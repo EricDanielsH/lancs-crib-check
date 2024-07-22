@@ -82,7 +82,7 @@ export default function HouseDetails() {
     <>
       <div className="container flex flex-col justify-center xl:flex-row items-center h-full mb-20">
         <Image
-          src={house.image || DefaultHouse}
+          src={house.mediaUrl || DefaultHouse}
           alt={`${house.address} image`}
           width={800}
           height={600}
