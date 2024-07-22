@@ -191,7 +191,7 @@ export default function RegisterHouseForm() {
 
     if (response.ok) {
       document.getElementById("form").reset(); // Reset the form
-      router.push("/");
+      router.push(`/houses/${slug}`); // Redirect to the new house page
     } else {
       setError("An error occurred while registering the house");
       console.error(response.statusText);
@@ -201,7 +201,7 @@ export default function RegisterHouseForm() {
   return (
     <form
       id="form"
-      className="flex flex-col min-w-96 w-2/5 bg-red-800 justify-center items-center gap-3 my-20 p-4 rounded-lg"
+      className="flex flex-col min-w-96 w-3/5 lg:w-2/5 bg-red-800 justify-center items-center gap-3 mb-20 p-4 rounded-lg"
       onSubmit={handleSubmit}
     >
       <label className="input input-bordered flex items-center gap-2 w-full">
@@ -271,7 +271,7 @@ export default function RegisterHouseForm() {
         value={opinion}
         onChange={setOpinion}
         placeholder="I think that this house..."
-        className="w-full flex-2 bg-white"
+        className="w-full bg-white h-32 overflow-hidden rounded-lg"
       />
 
       <div className="flex w-full flex-col xl:flex-row  gap-4 items-center mb-2">

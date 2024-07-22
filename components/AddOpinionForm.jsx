@@ -25,7 +25,6 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
   const [error, setError] = useState("");
 
   async function handleSubmit(event) {
-
     if (opinion == "" || rating == "") {
       setError("Opinion and rating are required");
       return;
@@ -86,7 +85,7 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
             value={opinion}
             onChange={setOpinion}
             placeholder="I think that this house..."
-            className="w-full flex-2 bg-white"
+            className="w-full bg-white h-32 overflow-hidden rounded-lg"
           />
           <div className="flex w-full flex-col xl:flex-row  gap-4 items-center">
             <label className="input input-bordered flex items-center gap-2 w-full">
