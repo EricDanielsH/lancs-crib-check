@@ -104,7 +104,7 @@ export default function HouseDetails() {
           {session ? (
             <AddOpinionForm slug={slug} onAddOpinion={handleOpinionAdded} />
           ) : (
-            <p className="text-lg text-slate-700 p-4 rounded-lg bg-gradient-to-r from-red-200 to-red-200/10 mb-6">
+            <p className="text-lg text-slate-700 dark:bg-slate-900 dark:text-neutral-200 p-4 rounded-lg bg-slate-300 mb-6">
               If you want to add your opinion, please log in first.{" "}
               <Link
                 href="/login"

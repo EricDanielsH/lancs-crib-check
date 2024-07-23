@@ -68,7 +68,7 @@ export default function SignInEmail() {
     <div className="flex flex-col items-center  justify-center bg-red-800 rounded-xl">
       <form
         id="form"
-        className="w-fit p-8 flex flex-col gap-2"
+        className="w-fit p-10 flex flex-col gap-2"
         onSubmit={handleSubmit}
       >
         <label className="input input-bordered flex items-center gap-2">

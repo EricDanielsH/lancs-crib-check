@@ -65,7 +65,7 @@ export default function SignInEmail() {
     <div className="flex flex-col items-center justify-center bg-red-800 rounded-xl">
       <form
         id="form"
-        className="w-fit p-8 flex flex-col gap-2"
+        className="w-fit p-10 flex flex-col gap-2"
         onSubmit={handleSubmit}
       >
         <label className="input input-bordered flex items-center gap-2">
@@ -137,8 +137,8 @@ export default function SignInEmail() {
           )}
         </button>
       </form>
-      <Link href="/login" className="text-white underline mb-4">
-        Don&apos;t have an account? Register In
+      <Link href="/register" className="text-white underline mb-4 p-2">
+        Don&apos;t have an account? Register here
       </Link>
     </div>
   );
