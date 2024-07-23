@@ -13,7 +13,17 @@ export const metadata: Metadata = {
   description:
     "Find student opinions on student accomodation at Lancaster University.",
   authors: [{ name: "Eric Daniels" }],
-  keywords: ["Lancaster University", "Student Accomodation", "Reviews", "Ratings", "LU", "CribCheck", "Student Housing", "Student Housing Reviews", "Student Housing Ratings"],
+  keywords: [
+    "Lancaster University",
+    "Student Accomodation",
+    "Reviews",
+    "Ratings",
+    "LU",
+    "CribCheck",
+    "Student Housing",
+    "Student Housing Reviews",
+    "Student Housing Ratings",
+  ],
   viewport: "width=device-width, initial-scale=1.0",
 };
 
@@ -27,7 +37,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter} bg-fixed bg-[url('../assets/bg2-bigger.jpg')]    bg-cover h-full w-screen max-w-full min-h-screen flex flex-col`}
+        style={{
+          backgroundAttachment: "scroll", // Ensures background scrolls with content
+          backgroundPosition: "center center", // Center background
+          backgroundRepeat: "repeat", // Avoid tiling if it's not intended
+        }}
+        className={`${inter.className}  bg-[url('../assets/bg2-bigger.jpg')] bg-center bg-repeat bg-cover min-h-screen flex flex-col`}
       >
         <SessionProvider session={session}>
           <main

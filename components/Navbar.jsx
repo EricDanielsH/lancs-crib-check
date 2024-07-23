@@ -23,7 +23,7 @@ export default function Navbar() {
           </h2>
         </Link>
       </div>
-      <div className="flex-none gap-2">
+      <div className="flex-none gap-2 hidden sm:flex">
         <SearchNavBar />
       </div>
       {session && session.user ? (

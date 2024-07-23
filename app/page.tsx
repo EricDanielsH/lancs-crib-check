@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="container mx-auto flex items-center justify-center flex-col max-w-screen h-full">
+      <main className="container mx-auto flex items-center justify-center flex-col w-full max-w-screen h-full">
         <h1 className="text-4xl font-bold mb-2">
           <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
             LU
@@ -15,7 +15,7 @@ export default async function Home() {
           CribCheck
         </h1>
 
-        <h2 className="mb-4 text-xl font-semibold">
+        <h2 className="mb-4 text-xl font-semibold w-full text-center">
           Find student opinions on student accomodation
         </h2>
 
