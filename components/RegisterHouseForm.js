@@ -28,6 +28,8 @@ export default function RegisterHouseForm() {
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const computeSHA256 = async (file) => {
     const buffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
@@ -77,124 +79,132 @@ export default function RegisterHouseForm() {
   }
 
   async function handleSubmit(event) {
-    event.preventDefault();
+    try {
+      event.preventDefault();
+      setIsLoading(true);
 
-    // Upload the image to the S3 bucket
-    let media_Id = null;
-    let media_Url = null
-    if (file) {
-      console.log("Uploading image to S3 bucket...");
-      const checksum = await computeSHA256(file);
-      const signedURLResult = await getSignedURL(
-        file.type,
-        file.size,
-        file.name,
-        checksum,
-      );
-      console.log("signedURLResult: ", signedURLResult);
+      // Upload the image to the S3 bucket
+      let media_Id = null;
+      let media_Url = null;
+      if (file) {
+        console.log("Uploading image to S3 bucket...");
+        const checksum = await computeSHA256(file);
+        const signedURLResult = await getSignedURL(
+          file.type,
+          file.size,
+          file.name,
+          checksum,
+        );
+        console.log("signedURLResult: ", signedURLResult);
 
-      if (signedURLResult.error) {
-        setError("Error while uploading the image: ", error.message);
-        console.error(signedURLResult.error.message);
+        if (signedURLResult.error) {
+          setError("Error while uploading the image: ", error.message);
+          console.error(signedURLResult.error.message);
+          return;
+        }
+
+        const { url, mediaUrl, mediaId } = signedURLResult.success;
+        console.log("URL: ", url);
+        console.log("mediaId: ", mediaId);
+        media_Id = mediaId;
+        media_Url = mediaUrl;
+        await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type,
+          },
+          body: file,
+        });
+        console.log("Image uploaded to S3 bucket");
+      }
+
+      if (
+        !address ||
+        !ppw ||
+        !totalweeks ||
+        !bedrooms ||
+        !bathrooms ||
+        !rating ||
+        !opinion ||
+        !yearOfResidence
+      ) {
+        setError("Please fill in all the fields");
         return;
       }
 
-      const { url, mediaUrl, mediaId } = signedURLResult.success;
-      console.log("URL: ", url);
-      console.log("mediaId: ", mediaId);
-      media_Id = mediaId;
-      media_Url = mediaUrl;
-      await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": file.type,
-        },
-        body: file,
+      if (totalweeks < 1 || totalweeks > 52) {
+        setError("Total weeks must be between 1 and 52");
+        return;
+      }
+      if (bedrooms < 1 || bedrooms > 10) {
+        setError("Bedrooms must be between 1 and 10");
+        return;
+      }
+      if (bathrooms < 1 || bathrooms > 10) {
+        setError("Bathrooms must be between 1 and 10");
+        return;
+      }
+      if (ppw < 50 || ppw > 500) {
+        setError("Price per week must be between 50 and 500");
+        return;
+      }
+      if (rating > 5 || rating < 1) {
+        setError("Rating must be between 1 and 5");
+        return;
+      }
+      if (opinion.length < 10) {
+        setError("Opinion must be at least 10 characters long");
+        return;
+      }
+      if (
+        yearOfResidence < 2010 ||
+        yearOfResidence > new Date().getFullYear() + 1
+      ) {
+        setError(
+          `Year of residence must be between 2010 and ${new Date().getFullYear() + 1}`,
+        );
+        return;
+      }
+
+      const sanitizedAddress = DOMPurify.sanitize(address);
+      const sanitizedOpinion = DOMPurify.sanitize(opinion);
+      console.log("media_Id", media_Id);
+
+      const response = await fetch("/api/registerHouse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // House related fields
+          slug,
+          address: sanitizedAddress,
+          ppw,
+          totalweeks,
+          bedrooms,
+          bathrooms,
+          mediaId: media_Id || null,
+          mediaUrl: media_Url || null,
+          // Opinion related fields
+          text: sanitizedOpinion,
+          rating,
+          yearOfResidence,
+          authorEmail: session.user.email,
+        }),
       });
-      console.log("Image uploaded to S3 bucket");
-    }
 
-    if (
-      !address ||
-      !ppw ||
-      !totalweeks ||
-      !bedrooms ||
-      !bathrooms ||
-      !rating ||
-      !opinion ||
-      !yearOfResidence
-    ) {
-      setError("Please fill in all the fields");
-      return;
-    }
+      console.log("resonses: ", response);
 
-    if (totalweeks < 1 || totalweeks > 52) {
-      setError("Total weeks must be between 1 and 52");
-      return;
-    }
-    if (bedrooms < 1 || bedrooms > 10) {
-      setError("Bedrooms must be between 1 and 10");
-      return;
-    }
-    if (bathrooms < 1 || bathrooms > 10) {
-      setError("Bathrooms must be between 1 and 10");
-      return;
-    }
-    if (ppw < 50 || ppw > 500) {
-      setError("Price per week must be between 50 and 500");
-      return;
-    }
-    if (rating > 5 || rating < 1) {
-      setError("Rating must be between 1 and 5");
-      return;
-    }
-    if (opinion.length < 10) {
-      setError("Opinion must be at least 10 characters long");
-      return;
-    }
-    if (
-      yearOfResidence < 2010 ||
-      yearOfResidence > new Date().getFullYear() + 1
-    ) {
-      setError(
-        `Year of residence must be between 2010 and ${new Date().getFullYear() + 1}`,
-      );
-      return;
-    }
-
-    const sanitizedAddress = DOMPurify.sanitize(address);
-    const sanitizedOpinion = DOMPurify.sanitize(opinion);
-    console.log("media_Id", media_Id);
-
-    const response = await fetch("/api/registerHouse", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        // House related fields
-        slug,
-        address: sanitizedAddress,
-        ppw,
-        totalweeks,
-        bedrooms,
-        bathrooms,
-        mediaId: media_Id || null,
-        mediaUrl: media_Url || null,
-        // Opinion related fields
-        text: sanitizedOpinion,
-        rating,
-        yearOfResidence,
-        authorEmail: session.user.email,
-      }),
-    });
-
-    console.log("resonses: ", response)
-
-    if (response.ok) {
-      document.getElementById("form").reset(); // Reset the form
-      router.push(`/houses/${slug}`); // Redirect to the new house page
-    } else {
-      setError("An error occurred while registering the house");
-      console.error(response.statusText);
+      if (response.ok) {
+        document.getElementById("form").reset(); // Reset the form
+        router.push(`/houses/${slug}`); // Redirect to the new house page
+      } else {
+        setError("An error occurred while registering the house");
+        console.error(response.statusText);
+      }
+    } catch (error) {
+      setError(error);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -359,8 +369,12 @@ export default function RegisterHouseForm() {
         <span>Error! {error}</span>
       </div>
 
-      <button className="btn btn-error" type="submit">
-        Register house
+      <button className="btn mt-4" type="submit" disabled={isLoading}>
+        {isLoading ? (
+          <span className="loading loading-spinner loading-md"></span>
+        ) : (
+          "Register house"
+        )}
       </button>
     </form>
   );

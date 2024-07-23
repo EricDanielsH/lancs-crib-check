@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
   content: [
@@ -16,7 +17,7 @@ const config: Config = {
   plugins: [
     require("daisyui"),
     require("@tailwindcss/typography"),
-    function ({ addUtilities }) {
+    function({ addUtilities }: PluginAPI) {
       const newUtilities = {
         ".red-grad": {
           backgroundImage: "linear-gradient(to right, #ef4444, #b91c1c)",
@@ -24,7 +25,11 @@ const config: Config = {
           textFillColor: "transparent",
         },
       };
-      addUtilities(newUtilities, ["responsive", "hover"]);
+      // Use only the options supported by addUtilities
+      addUtilities(newUtilities, {
+        respectPrefix: false,
+        respectImportant: false,
+      });
     },
   ],
 };

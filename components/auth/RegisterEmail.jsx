@@ -8,6 +8,7 @@ export default function SignInEmail() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function isValidEmail(email) {
     const emailRegex = new RegExp(
@@ -17,24 +18,25 @@ export default function SignInEmail() {
   }
 
   const handleSubmit = async (e) => {
+    console.log("submitting");
     e.preventDefault();
-
-    if (email === "" || password === "" || name === "") {
-      setError("Complete all fields.");
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      setError("Invalid email.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-
+    setIsLoading(true);
     try {
+      if (email === "" || password === "" || name === "") {
+        setError("Complete all fields.");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        setError("Invalid email.");
+        return;
+      }
+
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters.");
+        return;
+      }
+
       const res = await fetch("/api/register", {
         method: "POST",
         headers: {
@@ -54,8 +56,9 @@ export default function SignInEmail() {
     } catch (error) {
       console.error(error);
       setError("An error occurred while creating the account");
+    } finally {
+      setIsLoading(false);
     }
-
     setError("");
   };
 
@@ -124,30 +127,34 @@ export default function SignInEmail() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button className="btn mt-8" type="submit">
-          Register
+        <div
+          role="alert"
+          className={`w-fit alert alert-error ${error === "" ? "hidden" : ""}`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Error! {error}</span>
+        </div>
+
+        <button className="btn mt-8" type="submit" disabled={isLoading}>
+          {isLoading ? (
+            <span className="loading loading-spinner loading-md"></span>
+          ) : (
+            "Register"
+          )}
         </button>
       </form>
-
-      <div
-        role="alert"
-        className={`w-fit alert alert-error ${error === "" ? "hidden" : ""}`}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>Error! {error}</span>
-      </div>
     </div>
   );
 }

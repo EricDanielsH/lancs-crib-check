@@ -14,7 +14,7 @@ export default function HouseDetails() {
     if (!session) {
       router.push("/login");
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <div className="container w-full flex flex-col gap-10 content-center items-center h-full">

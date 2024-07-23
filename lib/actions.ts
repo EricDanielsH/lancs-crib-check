@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import Media from "@/lib/models/Media";
-import {connectMongoDB} from "@/lib/mongodb";
+import { connectMongoDB } from "@/lib/mongodb";
 import {
   S3Client,
   GetObjectCommand,
@@ -44,6 +44,9 @@ export async function getSignedURL(
     return { error: { message: "File too large" } };
   }
 
+  // Ensure userId is a string or handle the case where it's undefined
+  const userId = session?.user?.id ?? "";
+
   const putObjectCommand = new PutObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME_LOCAL!,
     Key: generateFileName(),
@@ -51,7 +54,7 @@ export async function getSignedURL(
     ContentLength: size,
     ChecksumSHA256: checksum,
     Metadata: {
-      userId: session?.user?.id,
+      userId: userId,
     },
   });
 
@@ -59,13 +62,18 @@ export async function getSignedURL(
     expiresIn: 60,
   });
 
-
   await connectMongoDB();
   const newMedia = await Media.create({
-    userId: session.user.id,
+    userId: userId,
     url: signedUrl.split("?")[0],
     type: type,
   });
 
-  return { success: { url: signedUrl, mediaId: newMedia._id.toString(), mediaUrl: newMedia.url } };
+  return {
+    success: {
+      url: signedUrl,
+      mediaId: newMedia._id.toString(),
+      mediaUrl: newMedia.url,
+    },
+  };
 }

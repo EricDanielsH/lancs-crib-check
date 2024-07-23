@@ -8,20 +8,21 @@ export default function SignInEmail() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (email === "" || password === "") {
-      setError("Complete all fields.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
+    setIsLoading(true);
     try {
+      if (email === "" || password === "") {
+        setError("Complete all fields.");
+        return;
+      }
+
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters.");
+        return;
+      }
       let res = await fetch("/api/findUser", {
         method: "POST",
         headers: {
@@ -54,12 +55,8 @@ export default function SignInEmail() {
       console.error("Error when finding user", e);
       setError(e || "An error occurred while finding the user.");
       return;
-    }
-
-    try {
-    } catch (e) {
-      console.error("Error when logging in", e);
-      setError(e || "An error occurred while logging in.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,30 +108,34 @@ export default function SignInEmail() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button className="btn mt-8" type="submit">
-          Login
+        <div
+          role="alert"
+          className={`m-4 w-fit alert alert-error ${error === "" ? "hidden" : ""}`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Error! {error}</span>
+        </div>
+
+        <button className="btn mt-8" type="submit" disabled={isLoading}>
+          {isLoading ? (
+            <span className="loading loading-spinner loading-md"></span>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
-
-      <div
-        role="alert"
-        className={`m-4 w-fit alert alert-error ${error === "" ? "hidden" : ""}`}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>Error! {error}</span>
-      </div>
     </div>
   );
 }
