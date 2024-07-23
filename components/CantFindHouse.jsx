@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function CantFindHouse() {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center bg-base-200 p-4 rounded-xl">
+    <div className="flex flex-col items-center justify-center h-full text-center bg-base-200 p-4 rounded-xl py-10">
       <p className="text-lg mb-2 font-semibold">
         The house you are looking for does not exist in our listings.
       </p>
