@@ -26,7 +26,13 @@ export default async function RootLayout({
         className={`${inter} bg-fixed bg-[url('../assets/bg2-bigger.jpg')]    bg-cover h-full w-screen max-w-full min-h-screen flex flex-col`}
       >
         <SessionProvider session={session}>
-          <main className="bg-base-100/20 backdrop-blur-md flex-grow flex flex-col">
+          <main
+            className="bg-base-100/20 backdrop-blur-md flex-grow flex flex-col"
+            style={{
+              WebkitBackdropFilter: "blur(10px)", // CamelCase for the vendor prefix
+              backdropFilter: "blur(10px)", // Regular CSS property
+            }}
+          >
             <Navbar />
             {children}
           </main>

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px); /* For Safari */
+  backdrop-filter: blur(10px);
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
