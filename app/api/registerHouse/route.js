@@ -1,5 +1,5 @@
 import { connectMongoDB } from "@/lib/mongodb";
-import House from "@/lib/models/House";
+import House from "@/lib/models/house";
 import Opinion from "@/lib/models/opinion";
 import { NextResponse } from "next/server";
 

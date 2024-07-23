@@ -1,6 +1,6 @@
 import Opinion from "@/lib/models/opinion";
 import { connectMongoDB } from "@/lib/mongodb";
-import House from "@/lib/models/House";
+import House from "@/lib/models/house";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
