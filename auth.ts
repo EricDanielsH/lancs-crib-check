@@ -17,7 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         try {
           await connectMongoDB();
-          const res = await fetch("http://localhost:3000/api/findUser", {
+          const res = await fetch(`${process.env.PUBLIC_URL}/api/findUser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

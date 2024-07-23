@@ -26,7 +26,7 @@ export async function POST(req) {
     console.log("Address back: ", address);
     console.log("opinoin back: ", text);
     console.log("mediaId back: ", mediaId);
-    const res = await fetch("http://localhost:3000/api/findUserByEmail", {
+    const res = await fetch(`${process.env.PUBLIC_URL}/api/findUserByEmail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: authorEmail }),

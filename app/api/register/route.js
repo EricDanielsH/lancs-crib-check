@@ -26,6 +26,7 @@ export async function POST(req) {
 
     // Fix the name
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase
+    console.log(capitalizedName)
 
     // Create the user
     await User.create({
