@@ -227,7 +227,7 @@ export default function RegisterHouseForm() {
         />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
-        <div>
+        <div className="flex-shrink-0">
           Price per week <span className="text-red-500">*</span>
         </div>
         <input
@@ -239,7 +239,7 @@ export default function RegisterHouseForm() {
         />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
-        <div>
+        <div className="flex-shrink-0">
           Total weeks <span className="text-red-500">*</span>
         </div>
         <input
@@ -252,7 +252,7 @@ export default function RegisterHouseForm() {
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
         <div>
-          Total Bedrooms <span className="text-red-500">*</span>
+          Bedrooms <span className="text-red-500">*</span>
         </div>
 
         <input
@@ -265,7 +265,7 @@ export default function RegisterHouseForm() {
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full">
         <div>
-          Total Bathrooms <span className="text-red-500">*</span>
+          Bathrooms <span className="text-red-500">*</span>
         </div>
 
         <input
@@ -299,7 +299,7 @@ export default function RegisterHouseForm() {
           /5
         </label>
         <label className="input input-bordered flex items-center gap-2 w-full">
-          <div>
+          <div className="flex-shrink-0">
             Year of residence <span className="text-red-500">*</span>
           </div>
 

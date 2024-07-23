@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function SignInEmail() {
   const router = useRouter();
@@ -136,6 +137,9 @@ export default function SignInEmail() {
           )}
         </button>
       </form>
+      <Link href="/login" className="text-white underline mb-4">
+        Don&apos;t have an account? Register In
+      </Link>
     </div>
   );
 }

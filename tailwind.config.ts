@@ -14,6 +14,7 @@ const config: Config = {
     },
     extend: {},
   },
+  darkMode: "media",
   plugins: [
     require("daisyui"),
     require("@tailwindcss/typography"),

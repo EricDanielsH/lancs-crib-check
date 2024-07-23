@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 
 export default function SignInEmail() {
@@ -155,6 +157,8 @@ export default function SignInEmail() {
           )}
         </button>
       </form>
+
+      <Link href="/login" className="text-white underline mb-4">Have an account? Log In</Link>
     </div>
   );
 }

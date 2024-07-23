@@ -7,16 +7,16 @@ export default async function Home() {
 
   return (
     <>
-      <main className="container mx-auto flex items-center justify-center flex-col w-full max-w-screen h-full">
-        <h1 className="text-4xl font-bold mb-2">
+      <main className="container mx-auto flex items-center justify-center flex-col w-full max-w-screen h-full transition-colors duration-500">
+        <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-neutral-100 ">
           <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
             LU
           </span>
           CribCheck
         </h1>
 
-        <h2 className="mb-4 text-xl font-semibold w-full text-center">
-          Find student opinions on student accomodation
+        <h2 className="mb-4 text-xl font-semibold w-full text-center text-gray-700 dark:text-neutral-100">
+          Find student opinions on student accommodation
         </h2>
 
         <div className="w-4/5 xl:w-3/5">

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import type { Viewport } from 'next'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,15 @@ export const metadata: Metadata = {
     "Student Housing Reviews",
     "Student Housing Ratings",
   ],
-  viewport: "width=device-width, initial-scale=1.0",
 };
+
+ 
+export const viewport: Viewport = {
+  colorScheme: "only light",
+  width: "device-width",
+  themeColor: "#000000",
+  initialScale: 1,
+}
 
 export default async function RootLayout({
   children,
