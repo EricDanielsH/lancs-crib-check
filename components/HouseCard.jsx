@@ -5,7 +5,7 @@ import StarRating from "@/components/StarRating";
 export default function Card({ house }) {
   return (
     <div className="relative card bg-base-100 shadow-xl sm:flex sm:flex-row">
-      <figure className="relative w-full h-64 md:w-2/3 sm:h-auto">
+      <figure className="relative w-full h-24 md:w-2/3 sm:h-auto">
         <Image
           src={house.mediaUrl || defaultHouse}
           alt={`${house.address} image`}
