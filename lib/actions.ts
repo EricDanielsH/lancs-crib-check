@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import Media from "@/lib/models/Media";
+import Media from "@/lib/models/media";
 import { connectMongoDB } from "@/lib/mongodb";
 import {
   S3Client,
