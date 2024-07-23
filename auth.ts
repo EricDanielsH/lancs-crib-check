@@ -1,13 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 import { connectMongoDB } from "@/lib/mongodb";
-import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    Google,
     Credentials({
       credentials: {
         email: {},
@@ -58,7 +54,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
-  debug: true, // Enable debug mode to get more detailed error messages
   callbacks: {
     jwt({ token, user }: any) {
       if (user) {
