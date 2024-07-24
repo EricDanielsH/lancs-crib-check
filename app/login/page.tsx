@@ -10,7 +10,7 @@ export default function Login({
 }: {
   searchParams: { verified: string };
 }) {
-  const { data: session, status } = useSession();
+  const {  status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
