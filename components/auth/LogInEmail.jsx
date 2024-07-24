@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 
-export default function SignInEmail() {
+export default function SignInEmail({ isVerified }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,8 +33,9 @@ export default function SignInEmail() {
       });
 
       if (!res.ok) {
-        const { message } = await res.json();
-        setError(message);
+        const data = await res.json();
+        console.log("Error when finding user", data);
+        setError(data.message || "An error occurred while finding the user.");
         return;
       }
 
@@ -109,6 +110,26 @@ export default function SignInEmail() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+
+        {isVerified && (
+          <div role="alert" className="alert alert-success">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>This account has been verified</span>
+          </div>
+        )}
+
         <div
           role="alert"
           className={`m-4 w-fit alert alert-error ${error === "" ? "hidden" : ""}`}

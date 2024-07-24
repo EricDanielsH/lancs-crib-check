@@ -48,8 +48,8 @@ export default function SignInEmail() {
       });
 
       const data = await res.json();
-      if (data.error) {
-        setError(data.error);
+      if (data.status !== 200) {
+        setError(data.message);
         return;
       }
 

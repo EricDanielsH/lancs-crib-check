@@ -17,14 +17,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         try {
           await connectMongoDB();
-          const res = await fetch(`${process.env.PUBLIC_URL}/api/findUser`, {
+          const res = await fetch(`${process.env.PUBLIC_URL}/api/findUserByEmail`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               email: credentials.email,
-              password: credentials.password,
             }),
           });
 

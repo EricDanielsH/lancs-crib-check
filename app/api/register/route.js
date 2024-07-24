@@ -15,7 +15,7 @@ export async function POST(req) {
 
     // Check if the house already exists
     if (await User.findOne({ email })) {
-      return NextResponse.error(
+      return NextResponse.json(
         { message: "Email is already used" },
         { status: 400 },
       );
@@ -28,11 +28,13 @@ export async function POST(req) {
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
     console.log(capitalizedName)
 
+
     // Create the user
     await User.create({
       name: capitalizedName,
       email,
       password: hashedPassword,
+      isVerified: false
     });
 
     return NextResponse.json({
