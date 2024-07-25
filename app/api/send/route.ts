@@ -2,9 +2,10 @@ import EmailTemplate from "../../../components/EmailTemplate";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+resend.domains.create({ name: `${process.env.RESEND_API_KEY}` });
 
 export async function POST(req: Request) {
-  let testEmail = "e.danielshuaman@lancaster.ac.uk"
+  let testEmail = "e.danielshuaman@lancaster.ac.uk";
 
   try {
     const { email, name, token } = await req.json(); // Extract the body from the request
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "LUCribCheck <noreply@lucribcheck.com>",
       to: email || testEmail,
       subject: "Verify your email on LUCribCheck! 🎉 🎉 🎉",
       react: EmailTemplate({ firstName: name, token, email }),
