@@ -45,7 +45,7 @@ export default function EmailTemplate({
               </Link>
             </Text>
             <Text style={paragraph}>
-              If you didn't request this, please ignore this email.
+              If you didn&apos;t request this, please ignore this email.
             </Text>
           </Section>
           <Text style={paragraph}>
