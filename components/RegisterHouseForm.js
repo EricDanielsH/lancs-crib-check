@@ -126,7 +126,8 @@ export default function RegisterHouseForm() {
         !bathrooms ||
         !rating ||
         !opinion ||
-        !yearOfResidence
+        !yearOfResidence ||
+        !file
       ) {
         setError("Please fill in all the fields");
         return;
@@ -165,6 +166,7 @@ export default function RegisterHouseForm() {
         );
         return;
       }
+
 
       const sanitizedAddress = DOMPurify.sanitize(address);
       const sanitizedOpinion = DOMPurify.sanitize(opinion);
@@ -314,9 +316,10 @@ export default function RegisterHouseForm() {
       </div>
 
       <div>
-        <label className="text-white flex items-center w-full mb-1">
+        <label className="text-white flex items-center w-full gap-2 mb-1">
           {" "}
-          Add an image of the house (optional)
+          Add an image of the house <span className="text-red-500"> *</span>
+
         </label>
         <input
           type="file"
