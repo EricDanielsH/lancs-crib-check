@@ -90,7 +90,7 @@ export default function HouseDetails() {
         />
         <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg">
           <p>Last updated: {new Date(house.updatedAt).toLocaleDateString()}</p>
-          <h2 className="text-6xl font-bold mb-4 text-slate-800">
+          <h2 className="text-6xl font-bold mb-4 text-slate-800 dark:text-neutral-100">
             {house.address}
           </h2>
 
@@ -100,7 +100,7 @@ export default function HouseDetails() {
 
       <div className="container flex flex-col justify-center items-center rounded-lg">
         <section className="backdrop-blur-xl p-8 w-full lg:w-3/4 flex flex-col justify-center">
-          <h3 className="text-4xl font-bold mb-4">Opinions</h3>
+          <h3 className="text-4xl font-bold dark:text-neutral-200 mb-4">Opinions</h3>
           {session ? (
             <AddOpinionForm slug={slug} onAddOpinion={handleOpinionAdded} />
           ) : (

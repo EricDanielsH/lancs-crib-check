@@ -54,7 +54,7 @@ export default async function RootLayout({
       >
         <SessionProvider session={session}>
           <main
-            className="bg-base-100/20 backdrop-blur-md flex-grow flex flex-col"
+            className="bg-base-100/40 backdrop-blur-md flex-grow flex flex-col"
             style={{
               WebkitBackdropFilter: "blur(10px)", // CamelCase for the vendor prefix
               backdropFilter: "blur(10px)", // Regular CSS property
