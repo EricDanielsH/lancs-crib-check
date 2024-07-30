@@ -14,7 +14,8 @@ export default function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-lg hover:shadow-none transition-shadow sticky top-0 z-50">
       <div className="flex-1">
-        <Link href="/" className="btn btn-ghost text-xl">
+        <Link href="/" className="btn btn-ghost text-xl flex items-center">
+          <Image src="/logo.png" alt="Logo" width={30} height={50} />
           <h2>
             <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
               LU
