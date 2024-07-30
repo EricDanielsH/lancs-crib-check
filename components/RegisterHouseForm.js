@@ -283,7 +283,7 @@ export default function RegisterHouseForm() {
         value={opinion}
         onChange={setOpinion}
         placeholder="I think that this house..."
-        className="w-full bg-white h-40 sm:h-32 overflow-hidden rounded-lg"
+        className="w-full bg-white min-h-40 sm:min-h-32 overflow-hidden rounded-lg"
       />
 
       <div className="flex w-full flex-col xl:flex-row  gap-4 items-center mb-2">
