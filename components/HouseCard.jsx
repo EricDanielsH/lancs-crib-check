@@ -24,7 +24,7 @@ export default function Card({ house }) {
               PPPW
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-red-500 dark:text-neutral-300 text-2xl font-extrabold">
+              <div className=" dark:text-neutral-300 text-2xl font-extrabold">
                 {house.ppw}
               </div>
             </div>
@@ -35,7 +35,7 @@ export default function Card({ house }) {
               Bthrm.
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-red-500 dark:text-neutral-300 text-2xl font-extrabold">
+              <div className=" dark:text-neutral-300 text-2xl font-extrabold">
                 {house.bathrooms}
               </div>
             </div>
@@ -46,7 +46,7 @@ export default function Card({ house }) {
               Bedrm
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-red-500 dark:text-neutral-300 text-2xl font-extrabold">
+              <div className=" dark:text-neutral-300 text-2xl font-extrabold">
                 {house.bedrooms}
               </div>
             </div>
@@ -57,7 +57,7 @@ export default function Card({ house }) {
               Rating
             </div>
             <div className="flex items-center gap-1">
-              <div className="text-red-500 dark:text-neutral-300 text-2xl font-extrabold flex items-center">
+              <div className=" dark:text-neutral-300 text-2xl font-extrabold flex items-center">
                 {house.rating}
               </div>
               <div className="hidden sm:flex">
