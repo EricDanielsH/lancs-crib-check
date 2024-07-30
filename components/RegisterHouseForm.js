@@ -21,6 +21,7 @@ export default function RegisterHouseForm() {
   const [totalweeks, setTotalweeks] = useState("");
   const [bedrooms, setBedrooms] = useState("");
   const [bathrooms, setBathrooms] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
   const [opinion, setOpinion] = useState("");
   const [rating, setRating] = useState("");
   const [yearOfResidence, setYearOfResidence] = useState("");
@@ -79,6 +80,7 @@ export default function RegisterHouseForm() {
   }
 
   async function handleSubmit(event) {
+    console.log("Annon", anonymous);
     try {
       event.preventDefault();
       setIsLoading(true);
@@ -167,7 +169,6 @@ export default function RegisterHouseForm() {
         return;
       }
 
-
       const sanitizedAddress = DOMPurify.sanitize(address);
       const sanitizedOpinion = DOMPurify.sanitize(opinion);
       console.log("media_Id", media_Id);
@@ -186,6 +187,7 @@ export default function RegisterHouseForm() {
           mediaId: media_Id || null,
           mediaUrl: media_Url || null,
           // Opinion related fields
+          anonymous,
           text: sanitizedOpinion,
           rating,
           yearOfResidence,
@@ -265,7 +267,7 @@ export default function RegisterHouseForm() {
           onChange={(e) => setBedrooms(e.target.value)}
         />
       </label>
-      <label className="input input-bordered flex items-center gap-2 w-full">
+      <label className="input input-bordered flex items-center gap-2 w-full mb-8">
         <div>
           Bathrooms <span className="text-red-500">*</span>
         </div>
@@ -276,6 +278,15 @@ export default function RegisterHouseForm() {
           placeholder="2"
           value={bathrooms}
           onChange={(e) => setBathrooms(e.target.value)}
+        />
+      </label>
+      <label className="input input-bordered flex items-center gap-2 w-full">
+        Want your opinion to be anonymous?
+        <input
+          type="checkbox"
+          className="grow"
+          value={anonymous}
+          onChange={(e) => setAnonymous(e.target.checked)}
         />
       </label>
       <ReactQuill
@@ -319,7 +330,6 @@ export default function RegisterHouseForm() {
         <label className="text-white flex items-center w-full gap-2 mb-1">
           {" "}
           Add an image of the house <span className="text-red-500"> *</span>
-
         </label>
         <input
           type="file"

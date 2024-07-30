@@ -17,6 +17,7 @@ export async function POST(req) {
       mediaId,
       mediaUrl,
       // Opinion fields
+      anonymous,
       text,
       rating,
       yearOfResidence,
@@ -62,6 +63,13 @@ export async function POST(req) {
       mediaId,
       mediaUrl,
     });
+
+    if (anonymous) {
+      user.name = "Anonymous";
+    }
+
+    console.log("User.name backk: ", user.name);
+
     const newOpinion = await new Opinion({
       text,
       rating,

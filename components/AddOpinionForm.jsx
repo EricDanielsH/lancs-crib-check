@@ -23,8 +23,10 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
   const [rating, setRating] = useState("");
   const [yearOfResidence, setYearOfResidence] = useState("");
   const [error, setError] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
 
   async function handleSubmit(event) {
+    event.preventDefault();
     if (opinion == "" || rating == "") {
       setError("Opinion and rating are required");
       return;
@@ -56,8 +58,9 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
         slug,
         text: sanitizedOpinion,
         rating,
-        author: session.user.email, // TODO: replace with the actual user id
+        author: session.user.email,
         yearOfResidence,
+        anonymous,
       }),
     });
 
@@ -80,6 +83,10 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
         onSubmit={handleSubmit}
       >
         <div className="flex w-full flex-col gap-4 items-center">
+          <label className="input input-bordered flex items-center gap-2 w-full">
+            Want your opinion to be anonymous?
+            <input type="checkbox" onChange={(e) => setAnonymous(e.target.checked)} />
+          </label>
           <ReactQuill
             theme="snow"
             value={opinion}

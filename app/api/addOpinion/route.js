@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { slug, text, yearOfResidence, rating, author } = await req.json();
+    const { slug, text, yearOfResidence, rating, author, anonymous } = await req.json();
     console.log("slug from backend", slug);
     console.log("author from backend", author);
 
@@ -32,6 +32,11 @@ export async function POST(req) {
     if (!house) {
       return NextResponse.json({ error: "House not found" }, { status: 404 });
     }
+
+    if (anonymous) {
+      user.name = "Anonymous";
+    }
+
     const newOpinion = await new Opinion({
       authorId: user._id,
       authorName: user.name,
