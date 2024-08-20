@@ -16,6 +16,8 @@ export async function POST(req) {
       bathrooms,
       mediaId,
       mediaUrl,
+      // Author
+      authorId,
       // Opinion fields
       anonymous,
       text,
@@ -62,6 +64,7 @@ export async function POST(req) {
       opinions: [],
       mediaId,
       mediaUrl,
+      authorId,
     });
 
     if (anonymous) {
@@ -71,8 +74,9 @@ export async function POST(req) {
     console.log("User.name backk: ", user.name);
 
     const newOpinion = await new Opinion({
+      houseId: newHouse._id,
       text,
-      rating,
+      rating: parseFloat(rating.toFixed(1)),
       yearOfResidence,
       authorId: user._id,
       authorName: user.name,

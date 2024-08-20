@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import DOMPurify from "dompurify";
@@ -15,15 +15,61 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 //   yearOfResidence: { type: Number, required: true },
 // } ,{ timestamps: true });
 
-export default function AddOpinionForm({ slug, onAddOpinion }) {
+export default function EditOpinionForm({ opinionId, houseSlug }) {
   const router = useRouter();
   const { data: session } = useSession();
 
   const [opinion, setOpinion] = useState("");
+  const [text, setText] = useState("");
   const [rating, setRating] = useState("");
   const [yearOfResidence, setYearOfResidence] = useState("");
   const [error, setError] = useState("");
   const [anonymous, setAnonymous] = useState(false);
+
+  useEffect(() => {
+    console.log("opinion id", opinionId);
+    console.log("house slug", houseSlug)
+
+    async function getOpinion( opinionId ) {
+      // Fetch the opinion from API
+      const res = await fetch(
+        `/api/getOpinionById?opinionId=${opinionId}&houseSlug=${houseSlug}`,
+        {
+          headers: { "Content-Type": "application/json" },
+          method: "GET",
+        },
+      );
+
+      if (res.ok) {
+        const { opinion } = await res.json();
+        console.log("opinion api", opinion);
+        setOpinion(opinion);
+        setText(opinion.text);
+        setRating(opinion.rating);
+        setYearOfResidence(opinion.yearOfResidence);
+      }
+    }
+
+    if (!session) {
+      router.push("/login");
+    }
+
+    // Get opinion
+    if (!opinion) {
+      getOpinion(opinionId);
+    }
+
+    console.log("opinion edit form", opinion);
+
+    // If the opinion is not from the user, redirect to the opinion page
+    //if (opinion.authorId != session.user.id) {
+    //  router.push(`/`);
+    //}
+  }, [session, router, opinionId, houseSlug, opinion]);
+
+  function handleCancel() {
+    router.push(`/houses/${houseSlug}`);
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -49,28 +95,32 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
 
     setError("");
 
-    const sanitizedOpinion = DOMPurify.sanitize(opinion);
+    const sanitizedOpinion = DOMPurify.sanitize(text);
 
-    const response = await fetch("/api/addOpinion", {
+    const response = await fetch("/api/editOpinion", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        slug,
+        opinionId,
         text: sanitizedOpinion,
         rating,
-        author: session.user.email,
         yearOfResidence,
         anonymous,
+        // House related to
+        houseSlug,
       }),
     });
 
+    console.log("response", response);
+
     if (response.ok) {
-      setOpinion(""); // Reset the opinion state
+      console.log("Opinion edited successfully");
+      setText(""); // Reset the opinion state
       setRating(""); // Reset the rating state
       setYearOfResidence(""); // Reset the yearOfResidence state
-      onAddOpinion();
+      router.push(`/houses/${houseSlug}`);
     } else {
-      setError("An error occurred while adding the opinion");
+      setError("An error occurred while editing the opinion");
       console.error(response.statusText);
     }
   }
@@ -85,32 +135,36 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
         <div className="flex w-full flex-col gap-4 items-center">
           <label className="input input-bordered flex items-center gap-2 w-full">
             Want your opinion to be anonymous?
-            <input type="checkbox" onChange={(e) => setAnonymous(e.target.checked)} />
+            <input
+              type="checkbox"
+              value={anonymous}
+              onChange={(e) => setAnonymous(e.target.checked)}
+            />
           </label>
           <ReactQuill
             theme="snow"
-            value={opinion}
-            onChange={setOpinion}
+            value={text}
+            onChange={setText}
             placeholder="I think that this house..."
-            className="w-full bg-white min-h-44 sm:min-h-32 overflow-hidden rounded-lg"
+            className="w-full bg-white min-h-44 sm:min-h-32 overflow-hidden rounded-lg text-gray-800"
           />
           <div className="flex w-full flex-col xl:flex-row  gap-4 items-center">
-            <label className="input input-bordered flex items-center gap-2 w-full">
+            <label className="input input-bordered text-gray-500 flex items-center gap-2 w-full">
               Rating
               <input
                 type="number"
-                className=" w-full"
+                className=" w-full text-black dark:text-white"
                 placeholder="1"
                 value={rating}
                 onChange={(e) => setRating(e.target.value)}
               />
               /5
             </label>
-            <label className="input input-bordered flex items-center gap-2 w-full">
+            <label className="input input-bordered  text-gray-500 flex items-center gap-2 w-full">
               Year of residence
               <input
                 type="number"
-                className=" w-fit"
+                className=" w-fit dark:text-white text-black"
                 placeholder="2023"
                 value={yearOfResidence}
                 onChange={(e) => setYearOfResidence(e.target.value)}
@@ -139,8 +193,11 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
           <span>Error! {error}</span>
         </div>
         <button className="btn btn-error mt-4" type="submit">
-          Add opinion
+          Edit Opinion
         </button>
+        <a className="btn mt-4" onClick={handleCancel}> 
+          Cancel
+        </a>
       </form>
     </>
   );

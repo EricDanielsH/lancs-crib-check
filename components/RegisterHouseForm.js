@@ -186,6 +186,8 @@ export default function RegisterHouseForm() {
           bathrooms,
           mediaId: media_Id || null,
           mediaUrl: media_Url || null,
+          // author
+          authorId: session.user.id,
           // Opinion related fields
           anonymous,
           text: sanitizedOpinion,

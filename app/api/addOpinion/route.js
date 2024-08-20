@@ -5,7 +5,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { slug, text, yearOfResidence, rating, author, anonymous } = await req.json();
+    const { slug, text, yearOfResidence, rating, author, anonymous } =
+      await req.json();
     console.log("slug from backend", slug);
     console.log("author from backend", author);
 
@@ -38,6 +39,7 @@ export async function POST(req) {
     }
 
     const newOpinion = await new Opinion({
+      houseId: house._id,
       authorId: user._id,
       authorName: user.name,
       text,
@@ -51,10 +53,15 @@ export async function POST(req) {
     house.opinions.push(newOpinion._id);
 
     // Calculate the new average rating
-    const averageRating = (house.rating + newOpinion.rating) / 2;
+    const opinions = await Opinion.find({ houseId: house._id });
+    let totalRating = 0;
+    for (const opinion of opinions) {
+      totalRating += opinion.rating;
+    }
+    const averageRating = totalRating / opinions.length;
 
     // Update the house's rating
-    house.rating = averageRating;
+    house.rating = parseFloat(averageRating.toFixed(1));
     await house.save();
 
     return NextResponse.json({

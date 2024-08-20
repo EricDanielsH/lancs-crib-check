@@ -17,6 +17,11 @@ export default function HouseDetails() {
   const [opinions, setOpinions] = useState([]);
   const { data: session } = useSession();
 
+  function handleDeleteOpinion() {
+    // Remove opinion of the list
+    fetchOpinions(slug);
+  }
+
   async function fetchHouse(slug) {
     if (slug) {
       // Fetch house details from the database or API
@@ -30,6 +35,7 @@ export default function HouseDetails() {
         });
 
         const { house } = await res.json();
+        console.log("house console", house);
         if (house) setHouse(house);
         else {
           console.error("House not found");
@@ -89,7 +95,15 @@ export default function HouseDetails() {
           className="rounded-lg"
         />
         <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg">
-          <p>Last updated: {new Date(house.updatedAt).toLocaleDateString()}</p>
+          {house.authorId === session?.user.id && (
+            <a href="" className="text-blue-400 underline text-sm">
+              Edit this house
+            </a>
+          )}
+
+          <p className="text-gray-400">
+            Last updated: {new Date(house.updatedAt).toLocaleDateString()}
+          </p>
           <h2 className="text-6xl font-bold mb-4 text-slate-800 dark:text-neutral-100">
             {house.address}
           </h2>
@@ -100,7 +114,9 @@ export default function HouseDetails() {
 
       <div className="container flex flex-col justify-center items-center rounded-lg">
         <section className="backdrop-blur-xl p-8 w-full lg:w-3/4 flex flex-col justify-center">
-          <h3 className="text-4xl font-bold dark:text-neutral-200 mb-4">Opinions</h3>
+          <h3 className="text-4xl font-bold dark:text-neutral-200 mb-4">
+            Opinions
+          </h3>
           {session ? (
             <AddOpinionForm slug={slug} onAddOpinion={handleOpinionAdded} />
           ) : (
@@ -115,7 +131,11 @@ export default function HouseDetails() {
             </p>
           )}
           {opinions.map((opinion) => (
-            <OpinionCard key={opinion._id} opinion={opinion} />
+            <OpinionCard
+              key={opinion._id}
+              opinion={opinion}
+              onDelete={handleDeleteOpinion}
+            />
           ))}
         </section>
       </div>

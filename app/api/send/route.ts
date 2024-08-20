@@ -19,6 +19,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await resend.emails.send({
       from: "LUCribCheck <noreply@lucribcheck.com>",
+      //from:'Acme <onboarding@resend.dev>'
       to: email || testEmail,
       subject: "Verify your email on LUCribCheck! 🎉 🎉 🎉",
       react: EmailTemplate({ firstName: name, token, email }),
