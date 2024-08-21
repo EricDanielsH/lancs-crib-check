@@ -3,6 +3,7 @@ import Opinion from "@/lib/models/opinion";
 import House from "@/lib/models/house";
 import { connectMongoDB } from "@/lib/mongodb";
 import { auth } from "@/auth";
+import { ObjectId } from "mongodb";
 
 export async function DELETE(req: Request) {
   try {
@@ -16,10 +17,10 @@ export async function DELETE(req: Request) {
     // Check if the user is the author
     const session = await auth();
 
-    const opinion = await Opinion.findOne({ _id: slug });
+    const opinion = await Opinion.findOne({ _id: new ObjectId(slug) });
 
     const houseId = opinion?.houseId;
-    const house = await House.findOne({ _id: houseId });
+    const house = await House.findOne({ _id: new ObjectId(houseId) });
 
     console.log("opinion", opinion);
     console.log("session", session);
@@ -43,7 +44,7 @@ export async function DELETE(req: Request) {
     }
 
     // Delete the opinion
-    const result = await Opinion.deleteOne({ _id: slug });
+    const result = await Opinion.deleteOne({ _id: new ObjectId(slug) });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(
@@ -52,20 +53,31 @@ export async function DELETE(req: Request) {
       );
     }
 
-    // Remove the opinion from the house
+    // Remove the opinion from the house's opinion array
+    console.log("house.opinions", house.opinions);
     house.opinions = house.opinions.filter(
-      (opinion: any) => opinion.toString() !== slug,
+      (opinionId: any) => opinionId.toString() !== slug?.toString(),
     );
 
+    console.log("house.opinions post", house.opinions);
+
     // Update the house rating
-    const opinions = await Opinion.find({ houseId });
+    const opinions = await Opinion.find({ houseId: new ObjectId(house._id) });
     let totalRating = 0;
     opinions.forEach((opinion) => {
       totalRating += opinion.rating;
     });
-    const rating = parseFloat((totalRating / opinions.length).toFixed(1));
 
-    await House.updateOne({ _id: house }, { rating });
+    const rating =
+      opinions.length > 0
+        ? parseFloat((totalRating / opinions.length).toFixed(1))
+        : 0;
+
+    // Save the updated house document
+    await House.updateOne(
+      { _id: new ObjectId(house._id) },
+      { $set: { opinions: house.opinions, rating } },
+    );
 
     return NextResponse.json(
       { message: "Opinion deleted successfully", data: result },

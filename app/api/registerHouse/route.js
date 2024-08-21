@@ -76,7 +76,7 @@ export async function POST(req) {
     const newOpinion = await new Opinion({
       houseId: newHouse._id,
       text,
-      rating: parseFloat(rating.toFixed(1)),
+      rating: parseFloat(Number(rating).toFixed(1)),
       yearOfResidence,
       authorId: user._id,
       authorName: user.name,
