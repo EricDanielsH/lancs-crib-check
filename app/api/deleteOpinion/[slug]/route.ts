@@ -58,7 +58,7 @@ export async function DELETE(req: Request) {
     opinions.forEach((opinion) => {
       totalRating += opinion.rating;
     });
-    const rating = totalRating / opinions.length;
+    const rating = parseFloat((totalRating / opinions.length).toFixed(1));
 
     await House.updateOne({ _id: house }, { rating });
 
