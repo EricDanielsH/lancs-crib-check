@@ -13,13 +13,19 @@ export default function Footer() {
           </p>
         </Link>
 
+        <p className="text-neutral-300 dark:text-gray-400 mb-2">
+          Do you have any questions or suggestions? Contact us at{" "}
+          <Link href="mailto:help@ericdaniels.dev" className="underline italic">
+            help@ericdaniels.dev
+          </Link>
+        </p>
+
         <Link
           href="https://www.ericdaniels.dev/"
           target="_blank"
           className="text-neutral-300 dark:text-gray-400 hover:text-red-500 transition-colors mb-2 inline-block"
         >
-          Made by{" "}
-          <span className="underline italic">Eric Daniels</span>
+          Made by <span className="underline italic">Eric Daniels</span>
         </Link>
 
         <p className="text-neutral-400 dark:text-gray-500">
