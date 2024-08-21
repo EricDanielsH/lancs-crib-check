@@ -52,6 +52,11 @@ export async function DELETE(req: Request) {
       );
     }
 
+    // Remove the opinion from the house
+    house.opinions = house.opinions.filter(
+      (opinion: any) => opinion.toString() !== slug,
+    );
+
     // Update the house rating
     const opinions = await Opinion.find({ houseId });
     let totalRating = 0;
