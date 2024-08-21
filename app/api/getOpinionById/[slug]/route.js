@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { connectMongoDB } from "@/lib/mongodb";
 import Opinion from "@/lib/models/opinion";
 import { NextResponse } from "next/server";
@@ -7,9 +7,10 @@ export async function GET(req) {
   try {
     // Extract query parameters from req.url
     let opinionId;
+    console.log(req.nextUrl.pathname);
     try {
-      const url = new URL(req.url);
-      opinionId = url.searchParams.get("opinionId");
+      const lastSegment = req.nextUrl.pathname.split("/").pop();
+      [opinionId] = lastSegment.split("&");
     } catch (error) {
       console.error("Error parsing query parameters:", error);
       return NextResponse.json(

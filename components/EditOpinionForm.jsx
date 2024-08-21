@@ -33,7 +33,7 @@ export default function EditOpinionForm({ opinionId, houseSlug }) {
     async function getOpinion( opinionId ) {
       // Fetch the opinion from API
       const res = await fetch(
-        `/api/getOpinionById?opinionId=${opinionId}&houseSlug=${houseSlug}`,
+        `/api/getOpinionById/${opinionId}&houseSlug=${houseSlug}`,
         {
           headers: { "Content-Type": "application/json" },
           method: "GET",

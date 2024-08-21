@@ -15,6 +15,8 @@ export default function HouseDetails() {
   const slug = useParams().slug;
   const [house, setHouse] = useState(null);
   const [opinions, setOpinions] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
   const { data: session } = useSession();
 
   function handleDeleteOpinion() {
@@ -24,7 +26,6 @@ export default function HouseDetails() {
 
   async function fetchHouse(slug) {
     if (slug) {
-      // Fetch house details from the database or API
       try {
         const res = await fetch(`/api/getHouse`, {
           method: "POST",
@@ -34,15 +35,21 @@ export default function HouseDetails() {
           body: JSON.stringify({ slug }),
         });
 
+        if (!res.ok) {
+          throw new Error("Failed to fetch house"); // Throw an error
+        }
+
         const { house } = await res.json();
-        console.log("house console", house);
-        if (house) setHouse(house);
-        else {
-          console.error("House not found");
-          return <div>House not found</div>;
+        if (house) {
+          setHouse(house);
+        } else {
+          throw new Error("House not found"); // Throw an error if no house found
         }
       } catch (error) {
         console.error(error);
+        setError(error.message); // Set error message
+      } finally {
+        setLoading(false); // Set loading to false
       }
     }
   }
@@ -82,7 +89,17 @@ export default function HouseDetails() {
     fetchOpinions(slug);
   }, [slug]);
 
-  if (!house) return <div>Loading...</div>;
+  if (loading) {
+    return <div>Loading...</div>; // Display loading message
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Display error message
+  }
+
+  if (!house) {
+    return <div>No house data available.</div>; // Handle case where house is null
+  }
 
   return (
     <>
@@ -96,9 +113,12 @@ export default function HouseDetails() {
         />
         <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg">
           {house.authorId === session?.user.id && (
-            <a href="" className="text-blue-400 underline text-sm">
+            <Link
+              href={`/editHouse/${house.slug}`}
+              className="text-blue-400 underline text-sm"
+            >
               Edit this house
-            </a>
+            </Link>
           )}
 
           <p className="text-gray-400">

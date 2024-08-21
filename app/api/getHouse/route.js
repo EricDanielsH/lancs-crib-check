@@ -7,7 +7,11 @@ export async function POST(req) {
     const { slug } = await req.json();
 
     await connectMongoDB();
-    const house = await House.findOne({ slug })
+    const house = await House.findOne({ slug });
+
+    if (!house) {
+      return NextResponse.json({ message: "House not found" }, { status: 404 });
+    }
 
     return NextResponse.json({ house });
   } catch (error) {
