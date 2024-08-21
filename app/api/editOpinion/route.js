@@ -37,6 +37,8 @@ export async function POST(req) {
     // Update opinion
     if (anonymous) {
       opinion.authorName = "Anonymous";
+    } else {
+      opinion.authorName = session.user.name;
     }
     opinion.text = text;
     opinion.yearOfResidence = yearOfResidence;

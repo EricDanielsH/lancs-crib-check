@@ -28,9 +28,9 @@ export default function EditOpinionForm({ opinionId, houseSlug }) {
 
   useEffect(() => {
     console.log("opinion id", opinionId);
-    console.log("house slug", houseSlug)
+    console.log("house slug", houseSlug);
 
-    async function getOpinion( opinionId ) {
+    async function getOpinion(opinionId) {
       // Fetch the opinion from API
       const res = await fetch(
         `/api/getOpinionById/${opinionId}&houseSlug=${houseSlug}`,
@@ -47,6 +47,13 @@ export default function EditOpinionForm({ opinionId, houseSlug }) {
         setText(opinion.text);
         setRating(opinion.rating);
         setYearOfResidence(opinion.yearOfResidence);
+        if (opinion.authorName === "Anonymous") {
+          setAnonymous(true);
+        }
+        console.log("authornmae", opinion.authorName);
+        console.log("anonymous", anonymous);
+      } else {
+        console.error("Error fetching opinion", res.statusText);
       }
     }
 
@@ -57,15 +64,14 @@ export default function EditOpinionForm({ opinionId, houseSlug }) {
     // Get opinion
     if (!opinion) {
       getOpinion(opinionId);
+      if (opinion && opinion.authorId.toString() != session.user.id) {
+        router.push(`/`);
+      }
     }
-
     console.log("opinion edit form", opinion);
-
+    console.log(anonymous);
     // If the opinion is not from the user, redirect to the opinion page
-    //if (opinion.authorId != session.user.id) {
-    //  router.push(`/`);
-    //}
-  }, [session, router, opinionId, houseSlug, opinion]);
+  }, [session, router, opinionId, houseSlug, opinion, anonymous]);
 
   function handleCancel() {
     router.push(`/houses/${houseSlug}`);
@@ -137,7 +143,7 @@ export default function EditOpinionForm({ opinionId, houseSlug }) {
             Want your opinion to be anonymous?
             <input
               type="checkbox"
-              value={anonymous}
+              checked={anonymous}
               onChange={(e) => setAnonymous(e.target.checked)}
             />
           </label>
@@ -195,7 +201,7 @@ export default function EditOpinionForm({ opinionId, houseSlug }) {
         <button className="btn btn-error mt-4" type="submit">
           Edit Opinion
         </button>
-        <a className="btn mt-4" onClick={handleCancel}> 
+        <a className="btn mt-4" onClick={handleCancel}>
           Cancel
         </a>
       </form>

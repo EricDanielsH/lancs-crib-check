@@ -287,7 +287,7 @@ export default function RegisterHouseForm() {
         <input
           type="checkbox"
           className="grow"
-          value={anonymous}
+          checked={anonymous}
           onChange={(e) => setAnonymous(e.target.checked)}
         />
       </label>

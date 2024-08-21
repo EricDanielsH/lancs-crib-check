@@ -85,7 +85,11 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
         <div className="flex w-full flex-col gap-4 items-center">
           <label className="input input-bordered flex items-center gap-2 w-full">
             Want your opinion to be anonymous?
-            <input type="checkbox" onChange={(e) => setAnonymous(e.target.checked)} />
+            <input
+              type="checkbox"
+              checked={anonymous}
+              onChange={(e) => setAnonymous(e.target.checked)}
+            />
           </label>
           <ReactQuill
             theme="snow"
