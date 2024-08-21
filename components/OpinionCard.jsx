@@ -41,7 +41,7 @@ export default function OpinionCard({ opinion, onDelete }) {
   return (
     <div
       key={opinion.id}
-      className={`flex flex-col gap-4 bg-base-200 mb-4 p-4 rounded-lg dark:bg-gray-700 dark:text-gray-100 ${session.user.id === opinion.authorId.toString() && "bg-gray-300 border-gray-500 border-2 dark:bg-gray-800 dark:border-gray-500"}`}
+      className={`flex flex-col gap-4 bg-base-200 mb-4 p-4 rounded-lg dark:bg-gray-700 dark:text-gray-100 ${session && session.user.id === opinion.authorId.toString() && "bg-gray-300 border-gray-500 border-2 dark:bg-gray-800 dark:border-gray-500"}`}
     >
       <div className={`flex items-center justify-between `}>
         <h4 className="text-2xl font-semibold">{opinion.authorName}</h4>

@@ -111,7 +111,7 @@ export default function HouseDetails() {
           height={600}
           className="rounded-lg"
         />
-        <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg">
+        <section className="backdrop-blur-xl p-8 w-full xl:w-1/2 rounded-lg bg-gray-200 dark:bg-gray-600">
           {house.authorId === session?.user.id && (
             <Link
               href={`/editHouse/${house.slug}`}
