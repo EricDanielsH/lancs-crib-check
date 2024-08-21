@@ -114,7 +114,7 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
               Year of residence
               <input
                 type="number"
-                className=" w-fit"
+                className=" w-full"
                 placeholder="2023"
                 value={yearOfResidence}
                 onChange={(e) => setYearOfResidence(e.target.value)}
