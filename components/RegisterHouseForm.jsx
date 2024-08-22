@@ -139,12 +139,12 @@ export default function RegisterHouseForm() {
         setError("Total weeks must be between 1 and 52");
         return;
       }
-      if (bedrooms < 1 || bedrooms > 10) {
-        setError("Bedrooms must be between 1 and 10");
+      if (bedrooms < 1 || bedrooms > 30) {
+        setError("Bedrooms must be between 1 and 30");
         return;
       }
-      if (bathrooms < 1 || bathrooms > 10) {
-        setError("Bathrooms must be between 1 and 10");
+      if (bathrooms < 1 || bathrooms > 20) {
+        setError("Bathrooms must be between 1 and 20");
         return;
       }
       if (ppw < 50 || ppw > 500) {
