@@ -5,8 +5,9 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-import type { Viewport } from 'next'
-import { Analytics } from "@vercel/analytics/react"
+import type { Viewport } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,13 +29,12 @@ export const metadata: Metadata = {
   ],
 };
 
- 
 export const viewport: Viewport = {
   colorScheme: "only light",
   width: "device-width",
   themeColor: "#000000",
   initialScale: 1,
-}
+};
 
 export default async function RootLayout({
   children,
@@ -63,6 +63,8 @@ export default async function RootLayout({
           >
             <Navbar />
             {children}
+            <Analytics />
+            <SpeedInsights />
           </main>
           <Footer />
         </SessionProvider>
