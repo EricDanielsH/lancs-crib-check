@@ -103,7 +103,7 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
               Rating
               <input
                 type="number"
-                className=" w-full"
+                className=" w-full dark:text-white"
                 placeholder="1"
                 value={rating}
                 onChange={(e) => setRating(e.target.value)}
@@ -114,7 +114,7 @@ export default function AddOpinionForm({ slug, onAddOpinion }) {
               Year of residence
               <input
                 type="number"
-                className=" w-full"
+                className=" w-full dark:text-white"
                 placeholder="2023"
                 value={yearOfResidence}
                 onChange={(e) => setYearOfResidence(e.target.value)}

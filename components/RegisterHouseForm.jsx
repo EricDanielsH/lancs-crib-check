@@ -226,7 +226,7 @@ export default function RegisterHouseForm() {
         </div>
         <input
           type="text"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="24 George St"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
@@ -238,7 +238,7 @@ export default function RegisterHouseForm() {
         </div>
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="140"
           value={ppw}
           onChange={(e) => setPpw(e.target.value)}
@@ -250,7 +250,7 @@ export default function RegisterHouseForm() {
         </div>
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="52"
           value={totalweeks}
           onChange={(e) => setTotalweeks(e.target.value)}
@@ -263,7 +263,7 @@ export default function RegisterHouseForm() {
 
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="4"
           value={bedrooms}
           onChange={(e) => setBedrooms(e.target.value)}
@@ -276,7 +276,7 @@ export default function RegisterHouseForm() {
 
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="2"
           value={bathrooms}
           onChange={(e) => setBathrooms(e.target.value)}
@@ -306,7 +306,7 @@ export default function RegisterHouseForm() {
           </div>
           <input
             type="number"
-            className=" w-full"
+            className=" w-full dark:text-white"
             placeholder="1"
             value={rating}
             onChange={(e) => setRating(e.target.value)}
@@ -320,7 +320,7 @@ export default function RegisterHouseForm() {
 
           <input
             type="number"
-            className=" w-20"
+            className=" w-20 dark:text-white"
             placeholder="2023"
             value={yearOfResidence}
             onChange={(e) => setYearOfResidence(e.target.value)}

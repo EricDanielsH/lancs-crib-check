@@ -247,7 +247,7 @@ export default function RegisterHouseForm() {
         </div>
         <input
           type="text"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="24 George St"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
@@ -259,7 +259,7 @@ export default function RegisterHouseForm() {
         </div>
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="140"
           value={ppw}
           onChange={(e) => setPpw(e.target.value)}
@@ -271,7 +271,7 @@ export default function RegisterHouseForm() {
         </div>
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="52"
           value={totalweeks}
           onChange={(e) => setTotalweeks(e.target.value)}
@@ -284,7 +284,7 @@ export default function RegisterHouseForm() {
 
         <input
           type="number"
-          className="grow w-fit"
+          className="grow w-fit dark:text-white"
           placeholder="4"
           value={bedrooms}
           onChange={(e) => setBedrooms(e.target.value)}
@@ -297,7 +297,7 @@ export default function RegisterHouseForm() {
 
         <input
           type="number"
-          className="grow"
+          className="grow dark:text-white"
           placeholder="2"
           value={bathrooms}
           onChange={(e) => setBathrooms(e.target.value)}
