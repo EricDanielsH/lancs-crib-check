@@ -20,6 +20,7 @@
     "dompurify": "^3.1.6",
     "dotenv": "^16.4.5",
     "google-auth-library": "^9.11.0",
+    "jsdom": "^24.1.1",
     "mongodb": "^6.8.0",
     "mongoose": "^8.4.5",
     "next": "14.2.4",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/dompurify": "^3.0.5",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
